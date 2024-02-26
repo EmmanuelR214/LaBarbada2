@@ -10,4 +10,6 @@ export const loginFGRoute = user => axios.post('/registerFG', user)
 
 export const logoutRoute = () => axios.post('/logout')
 
+export const blockRoute = id => axios.post('/block', id)
+
 export const verifTokenRequet = () => axios.get('/verify')

@@ -184,6 +184,15 @@ export const AuthProvider = ({children}) =>{
     }
   }
   
+  const blockUser = async() =>{V
+    try {
+      console.log('Hola')
+    } catch (error) {
+      if(Array.isArray(error.response.data)) setErrorAuth(error.response.data)
+      setErrorAuth(error.response.data)
+    }
+  }
+  
   useEffect(()=>{
     if(errorAuth.length > 0 || successAuth.length > 0){
       const timer = setTimeout(()=>{
@@ -236,6 +245,7 @@ export const AuthProvider = ({children}) =>{
       initializeRecaptcha,
       loginGoogle,
       loginFacebook,
+      blockUser,
       loading,
       user,
       isAuthenticade,

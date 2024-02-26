@@ -16,7 +16,7 @@ import { InputBasic } from "../../../components/Inputs"
 
 export const Login = () => {
   const {register, handleSubmit, formState: {errors}, setValue, watch, trigger } = useForm()
-  const {signin, loginGoogle, loginFacebook, isAuthenticade ,errorAuth} = useAuth()
+  const {signin, loginGoogle, loginFacebook, isAuthenticade ,errorAuth, blockUser} = useAuth()
   
   const navigate = useNavigate()
   
@@ -125,7 +125,7 @@ export const Login = () => {
       </div>
       
       <div className=" w-3/5">
-        <img src='/public/imagenes/Login.jpg' alt="imagen login" className="object-cover w-full h-full" />
+        <img src='/imagenes/Login.jpg' alt="imagen login" className="object-cover w-full h-full" />
       </div>
     </section>
   )
