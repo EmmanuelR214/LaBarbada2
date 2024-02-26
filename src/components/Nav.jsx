@@ -13,7 +13,7 @@ const Nav = () => {
   return (
     <nav className="bg-black p-2 flex justify-between items-center border-b-2 border-white" >
       <Link to='/' >
-        <img src="/public/imagenes/logo.png" className="h-12 px-4 " alt="Barbada Logo" />
+        <img src="/imagenes/logo.png" className="h-12 px-4 " alt="Barbada Logo" />
         <span className="hidden">Barbada</span>
       </Link>
       <ul className="flex space-x-2 items-center" >
