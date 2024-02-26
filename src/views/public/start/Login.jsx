@@ -125,7 +125,7 @@ export const Login = () => {
       </div>
       
       <div className=" w-3/5">
-        <img src='/src/assets/Login.jpg' alt="imagen login" className="object-cover w-full h-full" />
+        <img src='/public/imagenes/Login.jpg' alt="imagen login" className="object-cover w-full h-full" />
       </div>
     </section>
   )

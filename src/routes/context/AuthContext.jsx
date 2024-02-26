@@ -128,8 +128,8 @@ export const AuthProvider = ({children}) =>{
       setIsAuthenticade(true)
       return setSuccessAuth([`¡Bienvenido a bordo! ${f.user.displayName}`])
     } catch (error) {
-      console.error(error);
-      setErrorAuth(error);
+      console.error(error)
+      setErrorAuth(error)
     }
   }
   
