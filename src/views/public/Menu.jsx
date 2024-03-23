@@ -7,7 +7,6 @@ const Menu = () => {
   //  const { getMenu, listMenu } = useAuth();
   const navigate = useNavigate();
 
-
   return (
     <div className="flex">
       <div className="w-30 h-screen p-10 bg-red-600">
@@ -23,26 +22,34 @@ const Menu = () => {
             <Icon icon="streamline:octopus" className="mr-2 size-6" /> Pulpos
           </li>
           <li className="flex items-center mb-2">
-            <Icon icon="fluent:food-24-filled" className="mr-2 size-6 " /> Pa empezar
+            <Icon icon="fluent:food-24-filled" className="mr-2 size-6 " /> Pa
+            empezar
           </li>
           <li className="flex items-center mb-2">
-            <Icon icon="fluent:food-24-filled" className="mr-2 size-6" /> Caldos
+            <Icon icon="mingcute:soup-pot-line" className="mr-2 size-6" /> Caldos
           </li>
           <li className="flex items-center mb-2">
-            <Icon icon="icon-park-outline:chili" className="mr-2 size-6" /> Aguachiles y
-            ceviches
+            <Icon icon="icon-park-outline:chili" className="mr-2 size-6" />{" "}
+            Aguachiles y ceviches
           </li>
           <li className="flex items-center mb-2">
             <Icon icon="streamline:cocktail" className="mr-2 size-6" /> Cocteles
           </li>
           <li className="flex items-center mb-2">
-            <Icon icon="material-symbols:menu-book-outline" className="mr-2 size-6" /> Pa picar
+            <Icon
+              icon="material-symbols:menu-book-outline"
+              className="mr-2 size-6"
+            />{" "}
+            Pa picar
           </li>
           <li className="flex items-center mb-2">
             <Icon icon="bxs:bowl-rice" className="mr-2 size-6" /> Guarniciones
           </li>
           <li className="flex items-center mb-2">
-            <Icon icon="material-symbols:star-outline" className="mr-2 size-6" />{" "}
+            <Icon
+              icon="material-symbols:star-outline"
+              className="mr-2 size-6"
+            />{" "}
             Especialidades
           </li>
           <li className="flex items-center mb-2">
@@ -58,29 +65,31 @@ const Menu = () => {
             <Icon icon="cil:dinner" className="mr-2 size-6" /> Tostadas
           </li>
           <li className="flex items-center mb-2">
-            <Icon icon="fluent:food-fish-20-filled" className="mr-2 size-6" /> Filetes
+            <Icon icon="fluent:food-fish-20-filled" className="mr-2 size-6" />{" "}
+            Filetes
           </li>
           <li className="flex items-center mb-2">
-            <Icon icon="pepicons-pop:label-circle" className="mr-2 size-6" /> Promociones
+            <Icon icon="pepicons-pop:label-circle" className="mr-2 size-6" />{" "}
+            Promociones
+          </li>
+          <li className="flex items-center mb-2">
+            <Icon icon="lucide:cup-soda" className="mr-2 size-6" />{" "}
+            Bebidas
           </li>
         </ul>
       </div>
-      
 
       <div className="w-70 p-4">
-      
-      <h1 className="font-bold text-4xl text-zinc-200 mt-20 mb-6 ">Menu</h1>
-      
-      <input
+        <h1 className="font-bold text-4xl text-zinc-200 mt-20 mb-6 ">Menu</h1>
+
+        <input
           type="text"
           className="p-2 rounded w-full text-black mt-4 mb-6"
           onChange={(e) => {
             console.log(e.target.value);
             //busquedaCategoria(e.target.value)
           }}
-        />            
-
-      
+        />
 
         <div className="flex flex-wrap ">
           <div className="max-w-sm rounded-xl overflow-hidden shadow-lg m-4 bg-zinc-800">
