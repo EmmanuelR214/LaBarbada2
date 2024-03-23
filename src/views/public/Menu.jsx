@@ -6,7 +6,7 @@ import { Icon } from "@iconify/react";
 const Menu = () => {
   //  const { getMenu, listMenu } = useAuth();
   const navigate = useNavigate();
-
+  
   return (
     <div className="flex">
       <div className="w-30 h-screen p-10 bg-red-600">
@@ -40,7 +40,7 @@ const Menu = () => {
               icon="material-symbols:menu-book-outline"
               className="mr-2 size-6"
             />{" "}
-            Pa picar
+            charolas
           </li>
           <li className="flex items-center mb-2">
             <Icon icon="bxs:bowl-rice" className="mr-2 size-6" /> Guarniciones

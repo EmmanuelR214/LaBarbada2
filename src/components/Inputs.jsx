@@ -100,7 +100,6 @@ export const InputBasic = ({
             }}
             className="absolute top-1 right-3 focus:outline-none"
           >
-            <FontAwesomeIcon icon={showPass ? faEye : faEyeSlash} style={{ color: colorIcono || 'gray' }} />
           </button>
         )}
       </div>
