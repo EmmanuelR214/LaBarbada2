@@ -1,7 +1,6 @@
 import { useState } from "react"
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash  } from '@fortawesome/free-solid-svg-icons'
+import { Icon } from "@iconify/react";
+import { motion } from "framer-motion";
 
 export const InputBasic = ({
   titulo,
@@ -121,3 +120,47 @@ export const InputBasic = ({
     </div>
   )
 }
+
+
+export const InputDesign = () => {
+  const [isFocused, setIsFocused] = useState(false);
+
+  const handleFocus = () => {
+    setIsFocused(true);
+  };
+
+  const handleBlur = (e) => {
+    if (!e.target.value) {
+      setIsFocused(false);
+    }
+  };
+
+  return (
+   
+      <div className="relative w-full bg">
+        <div className="relative">
+          <motion.label
+            className={`absolute left-3 ${
+              isFocused ? " text-sm" : "text-gray-500"
+            }`}
+            animate={{ top: isFocused ? "-20px" : "20%" }}
+            onClick={() => document.querySelector("input").focus()}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+          >
+            Nombre de usuario
+          </motion.label>
+          <input
+            type="text"
+            className="text-black rounded-lg p-2 pr-10 px-3
+             w-full focus:outline-none "
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+          />
+          <div className="absolute inset-y-0 right-0 flex items-center bg-transparent p-2">
+            <Icon icon="ph:eye" className="text-black text-2xl" />
+          </div>
+        </div>
+      </div>
+
+  );
+};
