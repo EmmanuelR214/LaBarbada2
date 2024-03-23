@@ -1,10 +1,14 @@
-import { Outlet } from "react-router-dom";
-import Nav from "../components/Nav";
+import { Outlet, useLocation } from "react-router-dom";
+import {Nav, NavR} from "../components/Nav";
 
 const Layout = () => {
+  const location = useLocation()
+  
+  const mostrarNav = !location.pathname.startsWith('/register-data') && !location.pathname.startsWith('/recuperar')
+  
   return (
     <>
-    <Nav/>
+    { mostrarNav ? <Nav/> : null}
     <main>
       <Outlet/>
     </main>

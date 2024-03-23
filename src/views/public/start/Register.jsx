@@ -1,31 +1,29 @@
-import { useState, useEffect } from "react"
+import {useEffect } from "react"
 import { Link, useNavigate } from "react-router-dom"
 
 //Dependencias 
-import { useForm } from "react-hook-form"
 import { ToastContainer, toast } from "react-toastify"
-
 import 'react-toastify/dist/ReactToastify.css'
 
 //Comtext
 import { useAuth } from "../../../routes/context/AuthContext"
 
 //Components
-import { ButtonBasic, CheckButtton } from "../../../components/Buttons"
-import { InputBasic } from "../../../components/Inputs"
+import { ButtonBasic, LinkButton } from "../../../components/Buttons"
+import { TextLink } from "../../../components/Text"
+import { iconGoogle } from "../../../assets/icons/Icons"
 
 export const Register = () => {
-  const {register, handleSubmit, formState: {errors}, setValue, watch, trigger } = useForm()
-  const {signup, loginGoogle, loginFacebook, findOutNumber, isAuthenticade, errorAuth, successAuth} = useAuth()
+  const {loginGoogle, loginFacebook, isAuthenticade, errorAuth, successAuth} = useAuth()
   const navigate = useNavigate()
-  const [aceptaTerminos, setAceptaTerminos] = useState(false)
   
   useEffect(() =>{
-    if(isAuthenticade) navigate('/home')
+    if(isAuthenticade) navigate('/register-data')
     
-    if (errorAuth) {
+    if (errorAuth && Array.isArray(errorAuth)) {
       errorAuth.forEach((error) => toast.error(error));
     }
+    
     if(successAuth) {
       successAuth.forEach((success) => toast.success(success))
     }
@@ -36,11 +34,10 @@ export const Register = () => {
       const credentialsGoogle = await loginGoogle()
       console.log(credentialsGoogle)
     } catch (error) {
-      if(error.code === 'auth/popup-closed-by-user') {
-        console.error('Se cerro la ventana de inicio de google')
-      }
-      else{
-        console.log('sucedio un error:', error)
+      if (error.code === 'auth/popup-closed-by-user') {
+        toast.warning('Se canceló la operación.');
+      } else {
+        console.log('Ocurrió un error:', error); 
       }
     }
   }
@@ -49,11 +46,10 @@ export const Register = () => {
     try {
       await loginFacebook()
     } catch (error) {
-      if(error.code === 'auth/popup-closed-by-user') {
-        console.error('Se cerro la ventana de inicio de Facebook')
-      }
-      else{
-        console.log('sucedio un error:', error)
+      if (error.code === 'auth/popup-closed-by-user') {
+        toast.warning('Se canceló la operación.');
+      } else {
+        console.log('Ocurrió un error:', error);
       }
     }
   }
@@ -61,54 +57,24 @@ export const Register = () => {
   const handleApple = () =>{
     console.log('Login apple')
   }
-  
-  const handleCheck = (newTerm) => {
-    setAceptaTerminos(newTerm)
-  }
-  
-  
-  const onSubmit = handleSubmit(async (values) =>{
-    try {
-      if (!aceptaTerminos) {
-        toast.error("Debes aceptar los términos y condiciones para registrarte.")
-        return
-      }
-      await signup(values.nickname, values.tel, values.pass)
-    } catch (error) {
-      console.log(error)
-    }
-  })
-  
   return (
-    <section className="w-full h-[93vh] flex">
-      <div className=" w-2/5 flex justify-center items-center bg-[#101010] ">
-      <ToastContainer />
-        <div className="flex flex-col justify-center items-center space-y-9">
-          <div className="text-center">
-            <h1 className="text-2xl font-bold">Registrarse</h1>
-            <h1 className="text-lg">Bienvenido a <span className="text-red-700">Barbada Order</span></h1>
-          </div>
-          <form onSubmit={onSubmit} className="space-y-7">
-            <InputBasic titulo='Nombre de usuario' nombre='nickname' tipo='text' minimo='3' maximo='20'  err={errors} method={register} val={setValue} look={watch} triger={trigger}/>
-            <InputBasic titulo='Contraseña' nombre='pass' tipo='password' minimo='8' maximo='16'  err={errors} method={register} val={setValue} look={watch} triger={trigger} />
-            <InputBasic titulo='Confirmar contraseña' nombre='passConf' tipo='password' minimo='8' maximo='16'  err={errors} method={register} val={setValue} look={watch} triger={trigger} />
-            <InputBasic titulo='Teléfono' nombre='tel' tipo='tel' err={errors} method={register} val={setValue} look={watch} triger={trigger} click={findOutNumber}  />
-            <div id="recaptcha"></div>
-            <CheckButtton register={register} onCheckboxChange={handleCheck} />
-            <ButtonBasic text='Registrarse'disabled={!aceptaTerminos}/>
-          </form>
-          <div className="flex space-x-6">
-            <ButtonBasic text='Google' click={handleGoogle} disabled={!aceptaTerminos} textColor="text-slate-800" color="bg-slate-100" width='w-24' hovColor="bg-slate-300"/>
-            <ButtonBasic text='Facebook' click={handleFacebook} disabled={!aceptaTerminos} color="bg-blue-600" width='w-24' hovColor="bg-blue-700" />
-            <ButtonBasic text='Apple' click={handleApple} disabled={!aceptaTerminos} color="bg-black" width='w-24' border='border' />
-          </div>
-          <p className="text-sm text-gray-300">¿ya tienes cuenta? <Link to="/login" className="text-[#095D78] font-bold underline hover:text-[#0D7A9D]">Iniciar sesión</Link></p>
-        </div>
+    <section className="flex flex-col items-center justify-center md:flex-row h-screen">
+    <div className="w-full md:w-1/2 p-8 flex flex-col space-y-2 md:space-y-4 justify-center items-center order-2 md:order-1">
+      <div className="mb-2 flex flex-col justify-center items-center" >
+        <h2 className="text-md lg:text-4xl font-bold mb-4">Registro</h2>
+        <h1 className="text-lg">Bienvenido a <span className="text-red-700">Barbada Order</span></h1>
       </div>
-      
-      <div className=" w-3/5">
-        <img src='/imagenes/Login.jpg' alt="imagen reg" className="object-cover w-full h-full" />
+      <div className="flex flex-col md:flex-col justify-center w-full md:w-3/4 lg:w-1/2 space-y-6 md:space-y-8">
+        <LinkButton text="Teléfono" to="/register-data" icon="ic:baseline-phone" width='w-full' />
+        <ButtonBasic text='Google' click={handleGoogle} textColor="text-slate-800" color="bg-slate-100" hovColor="hover:bg-slate-300"  icon="devicon:google" width='w-full' />
+        <ButtonBasic text='Facebook' click={handleFacebook} color="bg-blue-500" hovColor="hover:bg-blue-600" icon="ic:baseline-facebook" width='w-full' />
+        <ButtonBasic text='Apple' click={handleApple} color="bg-black" hovColor="hover:bg-neutral-900" textHover="hover:text-white" border='border' icon="ic:baseline-apple" width='w-full' />
       </div>
-    </section>
+      <TextLink to="/login" text="¿Ya tienes cuenta? " linkText="Iniciar sesión" />
+    </div>
+    <div className="h-[40vh] md:h-screen md:w-3/4 order-1 md:order-2">
+      <img src="/img/Login.jpg" alt="" className="w-full h-full object-cover" />
+    </div>
+  </section>
   )
 }

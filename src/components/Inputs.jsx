@@ -1,10 +1,7 @@
 import { useState } from "react"
 
-//Coponentes
-import { ModalPhone } from "./Modals";
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash, faCommentSms  } from '@fortawesome/free-solid-svg-icons'
+import { faEye, faEyeSlash  } from '@fortawesome/free-solid-svg-icons'
 
 export const InputBasic = ({
   titulo,
@@ -18,15 +15,11 @@ export const InputBasic = ({
   triger,
   val,
   look,
-  click,
-  capt
 }) => {  
   const [isFocus, setIsFocus] = useState(false)
   const [showPass, setShowPass] = useState(false)
   const [errorMess, setErrorMess] = useState([])
-  const [tipoInput, setTipoInput] = useState(tipo || 'text')
-  const [showModal, setShowModal] = useState(false)
-  
+  const [tipoInput, setTipoInput] = useState(tipo || 'text')  
   const handleChange = (e) =>{
     const newErrorMess = []
     const input = e.target.value
@@ -36,7 +29,11 @@ export const InputBasic = ({
     const carac = /[!@#$%^&*]/.test(input)
     const p = input.toLowerCase()
     const name = look('nickname', '').toLowerCase()
+    const correoParametro = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input)
     
+    if(nombre === 'correo'){
+      if(!correoParametro) newErrorMess.push('Correo electronico no valido')
+    }
     if(nombre === 'nickname'){
       const valName = input.replace(/[^a-zA-Z0-9Ññ]/g,'')
       val(nombre, valName)
@@ -70,16 +67,6 @@ export const InputBasic = ({
     triger(nombre)
   }
   
-  const handleModal = async () =>{
-    const phoneNumber = look(nombre)
-    if (phoneNumber && phoneNumber.length === 10){
-      await click(phoneNumber, capt)
-      setShowModal(true)
-    }else{
-      console.log('No es un número valido')
-    }
-  }
-  
   return (
     <div className="relative mb-4 w-full">
       <div className="relative w-full">
@@ -104,19 +91,6 @@ export const InputBasic = ({
             isFocus || look(nombre) ? 'border-blue-200' : 'border-gray-500'
           }`}
         />
-        {
-          tipo === 'tel' && (
-            <button
-            type="button"
-            onClick={() => {
-              handleModal()
-            }}
-            className="absolute top-1 right-3 focus:outline-none"
-          >
-            <FontAwesomeIcon icon={faCommentSms} style={{ color: colorIcono || 'gray' }} />
-            </button> 
-          )
-        }
         
         {tipo === 'password' && (
           <button
@@ -139,13 +113,10 @@ export const InputBasic = ({
         {titulo}
       </label>
       {err[nombre] && <p className="text-red-500 text-xs">{err[nombre]?.message}</p>}
-      <div className=" w-80" >
-      {errorMess.map((message, index) => (
-        <p key={index} className="text-red-500 text-xs">{message}</p>
-      ))}
-      </div>
-      <div>
-        <ModalPhone isOpen={showModal} onClose={() => setShowModal(false)}/>
+      <div className="w-full">
+        {errorMess.map((message, index) => (
+          <p key={index} className="text-red-500 text-xs">{message}</p>
+        ))}
       </div>
     </div>
   )

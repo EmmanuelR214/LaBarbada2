@@ -29,29 +29,17 @@ export const Prueba = () => {
   
   const verifyCode = async()=>{
     try {
-      // 1. Asegúrate de tener el ID de confirmación a la mano
       if (!user) {
         throw new Error("No hay ID de confirmación disponible. Envía el código primero.");
       }
-  
-      // 2. Obtén el código ingresado por el usuario
       const verificationCode = code;
-  
-      // 3. Verifica el código con Firebase
       const confirmationResult = await user.confirm(verificationCode);
-  
-      // 4. Obtén el usuario autenticado
       const signedInUser = confirmationResult.user;
-  
-      // 5. Felicita al usuario y continúa con el proceso de registro
       console.log("¡Código verificado con éxito!");
       console.log("Usuario autenticado:", signedInUser);
-  
-      // Aquí puedes redirigir o mostrar un mensaje de éxito al usuario.
+
     } catch (error) {
       console.error("Error al verificar el código:", error);
-  
-      // Maneja el error de manera apropiada, mostrando un mensaje al usuario.
     }
   }
   
@@ -65,3 +53,5 @@ export const Prueba = () => {
     </section>
   )
 }
+
+

@@ -1,15 +1,18 @@
 import axios from "./axios";
+//todo: get
+export const verifTokenRequet = () => axios.get('/verify')
+
+export const alertRoute = () => axios.get('/alertloging')
+
+//todo: post
+export const searchNumberPhoneRoute = tel =>axios.post('/searchPhone',tel)
 
 export const registerRoute = user => axios.post(`/register`, user)
 
 export const loginRoute = user => axios.post(`/login`, user)
 
-export const CambiarPassRoute = pass => axios.post(`/compareUs`, pass)
+export const loginFacegooRoute = user => axios.post('/facegoo',user)
 
-export const loginFGRoute = user => axios.post('/registerFG', user)
+export const sendCodeRoute = email => axios.post('/sendCodeEmail', email)
 
-export const logoutRoute = () => axios.post('/logout')
-
-export const blockRoute = id => axios.post('/block', id)
-
-export const verifTokenRequet = () => axios.get('/verify')
+export const recoverPassRoute = user => axios.post('/recoverPass', user)

@@ -1,9 +1,9 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 //Api
-import { registerRoute, loginRoute, verifTokenRequet, loginFGRoute, CambiarPassRoute } from "../../utils/api/Auth";
+import {verifTokenRequet, searchNumberPhoneRoute, registerRoute, loginRoute, loginFacegooRoute, sendCodeRoute, recoverPassRoute, alertRoute} from "../../utils/api/Auth";
 //Firebase
-import { GoogleAuthProvider, FacebookAuthProvider, signInWithPhoneNumber, signOut, signInWithPopup, RecaptchaVerifier } from "firebase/auth";
+import { GoogleAuthProvider, FacebookAuthProvider, signInWithPhoneNumber, signOut, signInWithPopup, RecaptchaVerifier, reauthenticateWithCredential } from "firebase/auth";
 import { auth } from "../../utils/firebase/firebase";
 
 
@@ -24,6 +24,7 @@ export const AuthProvider = ({children}) =>{
   
   //Numero de telefono
   const [codeConfirmation, setCodeConfirmation] = useState(null)
+  const [confirmationNumberPhone, setConfirmationNumberPhone] = useState(null)
   
   const initializeRecaptcha = async () => {
     try {
@@ -60,94 +61,56 @@ export const AuthProvider = ({children}) =>{
         throw new Error("No hay ID de confirmación disponible. Envía el código primero.")
       }
       const verificationCode = code
-      
       const confirmationResult = await codeConfirmation.confirm(verificationCode)
       
-      const signedInUser = confirmationResult.codeConfirmation
-      
-      console.log("Usuario autenticado:", signedInUser)
+      console.log('confirmacion: ',confirmationResult)
+      setConfirmationNumberPhone(confirmationResult.user.uid)
       setSuccessAuth(['Codigo confirmado'])
+      return confirmationResult
     } catch (error) {
       console.error("Error al verificar el código:", error)
-      setErrorAuth(['Error al verificar el código'])
+      setErrorAuth(['El código proporcionado no es válido.'])
     }
   }
   
-  const changuePass = async (values) =>{
+  const searchPhone = async(tel) =>{
     try {
-      const cambiar = {
-        numero: values.tel,
-        pass: values.pass
+      const data = {
+        telefono: tel
       }
-      if(!codeConfirmation) return setErrorAuth(['Falta verificar el teléfono'])
-      const res = await CambiarPassRoute(cambiar)
-      setUser(res.data)
-      setIsAuthenticade(true)
-      return setSuccessAuth([`¡Hola de nuevo! ${res.data[0].nombre}`])
+      const search = await searchNumberPhoneRoute(data)
+      return search.data
     } catch (error) {
       if(Array.isArray(error.response.data)) setErrorAuth(error.response.data)
       setErrorAuth(error.response.data)
     }
   }
   
-  const loginGoogle = async() =>{
+  const alertUser = async() =>{
     try {
-      const google  =  new GoogleAuthProvider()
-      const g = await signInWithPopup(auth, google)
-      const dataGoogle = {nombre: g.user.displayName, uid: g.user.uid }
-      
-      const RLGoogle = await loginFGRoute(dataGoogle)
-      if(RLGoogle.data[1] === 'login'){
-        setUser(RLGoogle.data[0])
-        setIsAuthenticade(true)
-        return setSuccessAuth([`¡Hola de nuevo! ${g.user.displayName}`])
-      }
-      setUser(RLGoogle.data[0])
-      setIsAuthenticade(true)
-      return setSuccessAuth([`¡Bienvenido a bordo! ${g.user.displayName}`])
+      await alertRoute()
     } catch (error) {
-      console.log(error)
-      setErrorAuth(error)
+      if(Array.isArray(error.response.data)) setErrorAuth(error.response.data)
+      setErrorAuth(error.response.data)
     }
   }
   
-  const loginFacebook = async () => {
-    try {
-      const facebook = new FacebookAuthProvider();
-      const f = await signInWithPopup(auth, facebook);
-      const dataFacebook = {nombre: f.user.displayName, uid: f.user.uid }
-      
-      const RLFACEBOOK = await loginFGRoute(dataFacebook)
-      if(RLFACEBOOK.data[1] === 'login'){
-        setUser(RLFACEBOOK.data[0])
-        setIsAuthenticade(true)
-        return setSuccessAuth([`¡Hola de nuevo! ${f.user.displayName}`])
-      }
-      console.log('entro en register')
-      setUser(RLFACEBOOK.data[0])
-      setIsAuthenticade(true)
-      return setSuccessAuth([`¡Bienvenido a bordo! ${f.user.displayName}`])
-    } catch (error) {
-      console.error(error)
-      setErrorAuth(error)
-    }
-  }
-  
-  const signup = async(name, tel, pass) =>{
+  const signup = async(correo, tel, pass) =>{
     try {
       const regUser = {
-        uid:"",
-        nombre: name,
+        uid:confirmationNumberPhone,
+        correo: correo,
         telefono: tel,
         password: pass
       }
       
-      if(!codeConfirmation) return setErrorAuth(['Falta verificar el teléfono'])
       const res = await registerRoute(regUser)
+      
       console.log('entro aqui')
       setUser(res.data)
       setIsAuthenticade(true)
-      return setSuccessAuth([`¡Bienvenido a bordo! ${name}`])
+      setCodeConfirmation(null)
+      return setSuccessAuth([`¡Bienvenido a bordo!`])
     } catch (error) {
       console.log(error.response.data)
       if(Array.isArray(error.response.data)) setErrorAuth(error.response.data)
@@ -158,14 +121,104 @@ export const AuthProvider = ({children}) =>{
   const signin = async(user) =>{
     try {
       const logUser = {
-        nombre: user.nickname,
+        param: user.correo,
         password: user.passLog
       }
+      
       const res = await loginRoute(logUser)
       
       setUser(res.data)
       setIsAuthenticade(true)
-      setSuccessAuth([`¡Hola de nuevo! ${user.nickname}`])
+      setSuccessAuth([`¡Hola de nuevo!`])
+    } catch (error) {
+      console.log(error)
+      if(Array.isArray(error.response.data)) setErrorAuth(error.response.data)
+      setErrorAuth(error.response.data)
+    }
+  }
+  
+  const loginGoogle = async() =>{
+    try {
+      const google  =  new GoogleAuthProvider()
+      const g = await signInWithPopup(auth, google)
+      const dataGoogle = {
+        uid:g.user.uid,
+        correo: g.user.email,
+        telefono: g.phoneNumber,
+        message: 'Google'
+      }
+      console.log(dataGoogle)
+      const RLGoogle = await loginFacegooRoute(dataGoogle)
+      console.log(RLGoogle)
+      if(RLGoogle.data[1] === 'login'){
+        setUser(RLGoogle.data[0])
+        setIsAuthenticade(true)
+        return setSuccessAuth([`¡Hola de nuevo!`])
+      }
+      setUser(RLGoogle.data[0])
+      setIsAuthenticade(true)
+      return setSuccessAuth([`¡Bienvenido abordo!`])
+    } catch (error) {
+      if(Array.isArray(error.response.data)) setErrorAuth(error.response.data)
+      setErrorAuth(error.response.data)
+    }
+  }
+  
+  const loginFacebook = async() =>{
+    try {
+      const facebook  =  new FacebookAuthProvider()
+      const f = await signInWithPopup(auth, facebook)
+      const dataFacebook = {
+        uid:f.user.uid,
+        correo: f.user.email,
+        telefono: f.phoneNumber,
+        message: 'Facebook'
+      }
+      console.log(dataFacebook)
+      const RLFacebook = await loginFacegooRoute(dataFacebook)
+      console.log(RLFacebook)
+      if(RLFacebook.data[1] === 'login'){
+        setUser(RLFacebook.data[0])
+        setIsAuthenticade(true)
+        return setSuccessAuth([`¡Hola de nuevo!`])
+      }
+      setUser(RLFacebook.data[0])
+      setIsAuthenticade(true)
+      return setSuccessAuth([`¡Bienvenido abordo!`])
+    } catch (error) {
+      if(Array.isArray(error.response.data)) setErrorAuth(error.response.data)
+      setErrorAuth(error.response.data)
+    }
+  }
+  
+  const sendCodeEmail = async(email) =>{
+    try {
+      const data = {mail: email}
+      const codigoEmail =  await sendCodeRoute(data)
+      setCodeConfirmation(codigoEmail.data[1])
+      return codigoEmail
+    } catch (error) {
+      console.log(error)
+      console.log(error.response.data)
+      if(Array.isArray(error.response.data)) setErrorAuth(error.response.data)
+      setErrorAuth(error.response.data)
+    }
+  } 
+  
+  const recoverPassword = async(email, pass) =>{
+    try {
+      const data = {
+        email: email,
+        password:pass,
+        id:codeConfirmation
+      }
+      
+      const res = await recoverPassRoute(data)
+      
+      setUser(res.data[0])
+      setIsAuthenticade(true)
+      setSuccessAuth([`¡Bienvenido a bordo!`])
+      return res.data[0]
     } catch (error) {
       if(Array.isArray(error.response.data)) setErrorAuth(error.response.data)
       setErrorAuth(error.response.data)
@@ -178,15 +231,6 @@ export const AuthProvider = ({children}) =>{
       signOut(auth)
       setIsAuthenticade(false)
       setUser(null)
-    } catch (error) {
-      if(Array.isArray(error.response.data)) setErrorAuth(error.response.data)
-      setErrorAuth(error.response.data)
-    }
-  }
-  
-  const blockUser = async() =>{V
-    try {
-      console.log('Hola')
     } catch (error) {
       if(Array.isArray(error.response.data)) setErrorAuth(error.response.data)
       setErrorAuth(error.response.data)
@@ -220,10 +264,8 @@ export const AuthProvider = ({children}) =>{
           setLoading(false)
           return;
         }
-        console.log(res.data)
         setIsAuthenticade(true)
         setUser(res.data)
-        console.log(user)
         setLoading(false)
       } catch (error) {
         setIsAuthenticade(false)
@@ -239,13 +281,15 @@ export const AuthProvider = ({children}) =>{
     <AuthContext.Provider value={{
       signup,
       signin,
-      changuePass,
       findOutNumber,
       confirmCode,
       initializeRecaptcha,
+      searchPhone,
       loginGoogle,
       loginFacebook,
-      blockUser,
+      sendCodeEmail,
+      recoverPassword,
+      alertUser,
       loading,
       user,
       isAuthenticade,

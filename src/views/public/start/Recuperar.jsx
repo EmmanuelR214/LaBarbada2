@@ -1,57 +1,230 @@
-import { useState, useEffect } from "react"
-import { Link, useNavigate } from "react-router-dom"
+import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { ToastContainer, toast } from 'react-toastify';
+//Componentes
+import { NavR } from '../../../components/Nav';
+import { InputBasic } from '../../../components/Inputs';
+import { ButtonBasic } from '../../../components/Buttons';
+import { useAuth } from '../../../routes/context/AuthContext';
 
-//Dependencias
-import { useForm } from "react-hook-form"
-import { ToastContainer, toast } from "react-toastify"
-import 'react-toastify/dist/ReactToastify.css'
-
-//Comtext
-import { useAuth } from "../../../routes/context/AuthContext"
-
-//Components
-import { ButtonBasic } from "../../../components/Buttons"
-import { InputBasic } from "../../../components/Inputs"
-
-export const Recuperar = () => {
+const Recuperar = () => {
   const {register, handleSubmit, formState: {errors}, setValue, watch, trigger } = useForm()
-  const {changuePass,isAuthenticade ,errorAuth} = useAuth()
+  const {recoverPassword,sendCodeEmail,isAuthenticade ,errorAuth, successAuth} = useAuth()
   
   const navigate = useNavigate()
+  const location = useLocation()
+  
+  const queryParams = new URLSearchParams(location.search)
+  const stepFromUrl = parseInt(queryParams.get('step')) || 1
+  const [step, setStep] = useState(stepFromUrl)
+  const [timeLeft, setTimeLeft] = useState(180)
+  const minutes = Math.floor(timeLeft / 60);
+  const seconds = timeLeft % 60;
+  
   useEffect(() =>{
     if(isAuthenticade) navigate('/home')
-  },[isAuthenticade])
-  
-  useEffect(() => {
-    if (errorAuth) {
+    
+    if (errorAuth && Array.isArray(errorAuth)) {
       errorAuth.forEach((error) => toast.error(error));
     }
-  }, [errorAuth]);
-  const onSubmit = handleSubmit(async (values) =>{
+    
+    if(successAuth) {
+      successAuth.forEach((success) => toast.success(success))
+    }
+  },[isAuthenticade, successAuth, errorAuth])
+  
+  useEffect(() => {
+    const newUrl = `${location.pathname}?step=${step}`
+    navigate(newUrl, { replace: true })
+  }, [step, navigate, location.pathname])
+  
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      localStorage.removeItem('codigo')
+      console.log('Código eliminado del localStorage después de 3 minutos.')
+    }, 3 * 60 * 1000)
+    
+    return () => clearTimeout(timer)
+  }, [])
+  
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft(prevTimeLeft => prevTimeLeft - 1, 0)
+    }, 1000)
+    
+    return () => clearInterval(timer);
+  }, []);
+  
+  const handleNextStep = () => {
+    setStep(prevStep => prevStep + 1)
+  }
+  
+  const handlePrevStep = () => {
+    setStep(prevStep => Math.max(prevStep - 1, 1))
+  }
+  
+  const handleSendCode = handleSubmit(async(values) =>{
     try {
-      await changuePass(values)
+      const codigo = await sendCodeEmail(values.correo)
+      if(codigo){
+        localStorage.setItem('codigo', codigo.data[0])
+        localStorage.setItem('correo', values.correo)
+        handleNextStep()
+      }
     } catch (error) {
-      console.error(error)
+      console.log('error',error)
     }
   })
+  
+  const handleCompareCode = handleSubmit(async(values) =>{
+    try {
+      const valor = localStorage.getItem('codigo')
+      if(values.codigo === valor){
+        localStorage.removeItem('codigo')
+        handleNextStep()
+      }
+      else if(valor === null){
+        toast.error('Codigo caducado')
+      }
+      else {
+        toast.error('El código ingresado no coincide')
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  })
+  
+  const handleResendCode = async(e) =>{
+    try {
+      e.preventDefault()
+      const mail = localStorage.getItem('correo')
+      const codigo = await sendCodeEmail(mail)
+      localStorage.setItem('codigo', codigo.data)
+      toast.success('código enviado nuevamente')
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  
+  const handleRecoverPasword = handleSubmit(async(values)=>{
+    try {
+      const valor = localStorage.getItem('correo')
+      const yes = await recoverPassword(valor, values.pass)
+      if(yes){
+        localStorage.removeItem('correo')
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  })
+  
+  
+  const styleForm = 'w-1/4 flex flex-col items-center justify-center text-center space-y-4'
+  
+  const renderStepForm = () => {
+    switch (step) {
+      case 1:
+        return (
+          <form onSubmit={handleSendCode} className={`${styleForm}`} >
+            <h2 className=' font-bold md:text-2xl' >Recuperación de contraseña</h2>
+            <InputBasic titulo='Correo' nombre='correo' tipo='text' minimo='8' maximo='100'  err={errors} method={register} val={setValue} look={watch} triger={trigger} />
+            <ButtonBasic text='Enviar código' width='w-full' click={handleSendCode} />
+          </form>
+        )
+      case 2:
+        return (
+          <form onSubmit={handleCompareCode} className={`${styleForm}`} >
+            <h2 className=' font-bold md:text-2xl' >Ingrese código</h2>
+            <InputBasic titulo='Código' nombre='codigo' tipo='text' minimo='6' maximo='11'  err={errors} method={register} val={setValue} look={watch} triger={trigger} />
+            <ButtonBasic width='w-full' text='Verificar código'/>
+            <p>Volver a enviar el codigo: {minutes < 10 ? '0' + minutes : minutes}:{seconds < 10 ? '0' + seconds : seconds}</p>
+            <ButtonBasic width='w-full' text='Enviar codigo nuevamente' click={handleResendCode} disabled={timeLeft > 0} />
+          </form>
+        )
+      case 3:
+        return (
+          <form onSubmit={handleRecoverPasword} className={`${styleForm}`}  >
+            <h2 className=' font-bold md:text-2xl'>Cambiar contraseña</h2>
+            <InputBasic titulo='contraseña' nombre='pass' tipo='password' minimo='8' maximo='16'  err={errors} method={register} val={setValue} look={watch} triger={trigger} />
+            <ButtonBasic text='Enviar código' width='w-full' />
+          </form>
+        )
+      default:
+        return null
+    }
+  }
+
   return (
-    <section className="w-full h-[93vh] flex justify-center items-center">
-    <div className=" w-2/5 h-1/2 flex justify-center items-center bg-[#101010] rounded mb-10 ">
-    <ToastContainer />
-      <div className="flex flex-col justify-center items-center space-y-9">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold">Recuperar contraseña</h1>
-          <h1 className="text-lg">Bienvenido a <span className="text-red-700">Barbada Order</span></h1>
-        </div>
-        <form onSubmit={onSubmit} className="space-y-7">
-          <InputBasic titulo='Telefono' nombre='tel' tipo='tel' minimo='10' maximo='11'  err={errors} method={register} val={setValue} look={watch} triger={trigger} />
-          <InputBasic titulo='Contraseña' nombre='pass' tipo='password' minimo='8' maximo='16'  err={errors} method={register} val={setValue} look={watch} triger={trigger} />
-          <div id="recaptcha"></div>
-          <ButtonBasic text='Iniciar sesión' />
-        </form>
-        <p className="text-sm text-gray-300">¿Ya te acordaste? <Link to="/register" className="text-[#095D78] font-bold underline hover:text-[#0D7A9D]">Iniciar sesión</Link></p>
+    <>
+      <ToastContainer pauseOnHover={false} autoClose={2000} />
+      <NavR click={handlePrevStep} />
+      <div className='w-full h-[85vh] flex justify-center items-center' >
+        {renderStepForm()}
       </div>
-    </div>
-  </section>
+    </>
   )
 }
+
+export default Recuperar;
+
+
+
+
+
+
+// import { useState, useEffect } from "react"
+// import { Link, useNavigate } from "react-router-dom"
+
+// //Dependencias
+// import { useForm } from "react-hook-form"
+// import { ToastContainer, toast } from "react-toastify"
+// import 'react-toastify/dist/ReactToastify.css'
+
+// //Comtext
+// import { useAuth } from "../../../routes/context/AuthContext"
+
+// //Components
+// import { ButtonBasic } from "../../../components/Buttons"
+// import { InputBasic } from "../../../components/Inputs"
+
+// export const Recuperar = () => {
+//   const {register, handleSubmit, formState: {errors}, setValue, watch, trigger } = useForm()
+//   const {sendCodeEmail,isAuthenticade ,errorAuth} = useAuth()
+//   const [] = useState(false)
+//   const [formCodigo, setFormCodigo] = useState(false)
+//   const [codigo, setCodigo] = useState(null)
+  
+//   const navigate = useNavigate()
+//   useEffect(() =>{
+//     if(isAuthenticade) navigate('/home')
+//   },[isAuthenticade])
+  
+//   useEffect(() => {
+//     if (errorAuth) {
+//       errorAuth.forEach((error) => toast.error(error));
+//     }
+//   }, [errorAuth]);
+  
+//   const onSubmit = handleSubmit(async (values) =>{
+//     try {
+//       const si = await sendCodeEmail(values)
+//       // console.log(si)
+//       // setCodigo(si)
+//       // setFormCodigo(true)
+//     } catch (error) {
+//       console.error(error)
+//     }
+//   })
+  
+//   return (
+//     <section className="w-full h-[93vh] flex justify-center items-center">
+//     <ToastContainer pauseOnHover={false} autoClose={2000} />
+//     <div className=" w-2/5 h-1/2 flex justify-center items-center bg-[#101010] rounded mb-10 ">
+//       {
+        
+//       }
+//     </div>
+//   </section>
+//   )
+// }
