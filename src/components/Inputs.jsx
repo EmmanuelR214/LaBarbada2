@@ -100,7 +100,6 @@ export const InputBasic = ({
             }}
             className="absolute top-1 right-3 focus:outline-none"
           >
-            <FontAwesomeIcon icon={showPass ? faEye : faEyeSlash} style={{ color: colorIcono || 'gray' }} />
           </button>
         )}
       </div>
@@ -121,8 +120,8 @@ export const InputBasic = ({
   )
 }
 
-
-export const InputDesign = () => {
+///////////////////////////INPUTS CON DISEÑOS WII////////////////////////////////////////////////////
+export const Inputbasic2 = () => {
   const [isFocused, setIsFocused] = useState(false);
 
   const handleFocus = () => {
@@ -137,12 +136,12 @@ export const InputDesign = () => {
 
   return (
    
-      <div className="relative w-full bg">
+      <div className="relative w-full ">
         <div className="relative">
           <motion.label
             className={`absolute left-3 ${
               isFocused ? " text-sm" : "text-gray-500"
-            }`}
+            } pointer-events-none`}
             animate={{ top: isFocused ? "-20px" : "20%" }}
             onClick={() => document.querySelector("input").focus()}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
@@ -151,16 +150,78 @@ export const InputDesign = () => {
           </motion.label>
           <input
             type="text"
-            className="text-black rounded-lg p-2 pr-10 px-3
+            className="text-black rounded-lg p-3 pr-3 px-3
              w-full focus:outline-none "
             onFocus={handleFocus}
             onBlur={handleBlur}
           />
-          <div className="absolute inset-y-0 right-0 flex items-center bg-transparent p-2">
-            <Icon icon="ph:eye" className="text-black text-2xl" />
-          </div>
+
         </div>
       </div>
 
+  );
+};
+
+export const InputPassword = () => {
+  const [isFocused, setIsFocused] = useState(false);
+  const [showPass, setShowPass] = useState(false);
+
+  const handleFocus = () => {
+    setIsFocused(true);
+  };
+
+  const handleBlur = (e) => {
+    if (!e.target.value) {
+      setIsFocused(false);
+    }
+  };
+  
+  return (
+    <div className="relative w-full">
+      <div className="relative">
+        <motion.label
+          className={`absolute left-3 ${isFocused ? 'text-sm' : 'text-gray-500'} pointer-events-none`}
+          animate={{ top: isFocused ? '-20px' : '20%' }}
+          onClick={() => document.querySelector('input').focus()}
+          transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+        >
+          Contraseña 
+        </motion.label>
+        <input
+          type={showPass ? 'text' : 'password'}
+          className="text-black rounded-lg p-3 pr-10 px-3 w-full focus:outline-none"
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+        />
+        <motion.button
+          type="button"
+          onClick={() => setShowPass(!showPass)}
+          className="absolute inset-y-0 right-0 flex items-center p-2"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+        >
+          <Icon icon={showPass ? 'ph:eye' : 'mdi:eye-off-outline'} className="text-black text-2xl" />
+        </motion.button>
+      </div>
+    </div>
+  );
+};
+
+export const InputSearch = () => {
+  
+  return (
+   
+      <div className="relative w-full ">
+        <div className="relative">
+          <input
+            type="text"
+            className="text-white rounded-lg p-3 pr-10 pl-12 px-3
+             w-full focus:outline-none bg-zinc-800 text-xl" placeholder="Buscar"
+          />
+          <div className="absolute inset-y-0 left-0 flex items-center p-2 ">
+            <Icon icon="material-symbols:search" className="text-white text-3xl" />
+          </div>
+        </div>
+      </div>
   );
 };
