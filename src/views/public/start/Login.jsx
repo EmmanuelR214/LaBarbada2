@@ -12,8 +12,11 @@ import { useAuth } from "../../../routes/context/AuthContext"
 
 //Components
 import { ButtonBasic } from "../../../components/Buttons"
-import { InputBasic } from "../../../components/Inputs"
+import {CheckButtton} from '../../../components/Buttons'
+import { InputBasic } from "../../../components/Inputs" ///----
 import { TextLink } from "../../../components/Text"
+import {Inputbasic2,InputPassword} from '../../../components/Inputs'
+import moduleName from 'module'
 
 export const Login = () => {
   const {register, handleSubmit, formState: {errors}, setValue, watch, trigger } = useForm()
@@ -115,9 +118,13 @@ export const Login = () => {
           <h1 className="text-lg">Bienvenido a <span className="text-red-700">Barbada Order</span></h1>
         </div>
         <form onSubmit={onSubmit} className="mt-4 w-full space-y-8 md:space-y-11 md:w-3/4 lg:w-1/2">
-          <InputBasic titulo='Nombre de usuario' nombre='correo' tipo='text' minimo='8' maximo='100'  err={errors} method={register} val={setValue} look={watch} triger={trigger} />
+          <Inputbasic2/>
+          {/*<CheckButtton register={register}/>*/}
+          <InputPassword/>
+          
+         {/*  <InputBasic titulo='Nombre de usuario' nombre='correo' tipo='text' minimo='8' maximo='100'  err={errors} method={register} val={setValue} look={watch} triger={trigger} />
           <InputBasic titulo='Contraseña' nombre='passLog' tipo='password' minimo='3' maximo='20'  err={errors} method={register} val={setValue} look={watch} triger={trigger} />
-          <ButtonBasic text='Iniciar sesión' width='w-full' disabled={bloqueado}  />
+          <ButtonBasic text='Iniciar sesión' width='w-full' disabled={bloqueado}  />*/}
         </form>
         <div className="flex md:flex-col justify-center w-full md:w-3/4 lg:w-1/2 space-x-3 md:space-x-0 lg:space-x-0 space-y-0 md:space-y-3 ">
           <ButtonBasic text='Google' click={handleGoogle} textColor="text-slate-800" color="bg-slate-100" hovColor="hover:bg-slate-300"  icon="devicon:google" width='w-full' />
@@ -126,10 +133,12 @@ export const Login = () => {
         </div>
         <TextLink to="/recuperar" text="¿Olvidaste tu contraseña? " linkText="Recuperar contraseña"/>
         <TextLink to="/register" text="¿Aún no tienes cuenta? " linkText="Regístrate" />
+
       </div>
       <div className="h-screen md:w-3/4 order-1 md:order-2 bg-red-500">
         <img src="/img/Login.jpg" alt="" className="w-full h-full object-cover" />
       </div>
+      
     </section>
   )
 }

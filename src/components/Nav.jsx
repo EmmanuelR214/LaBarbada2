@@ -1,21 +1,22 @@
-import { Link } from "react-router-dom"
-import { useAuth } from "../routes/context/AuthContext"
-import { Icon } from '@iconify/react';
+import { Link } from "react-router-dom";
+import { useAuth } from "../routes/context/AuthContext";
+import { Icon } from "@iconify/react";
 
 import { useState, useEffect } from "react";
 
-const styleLink = 'font-bold inline-block hover:bg-red-600 hover:text-black hover:rounded-3xl px-2 py-1'
+const styleLink =
+  "font-bold inline-block hover:bg-red-600 hover:text-black hover:rounded-3xl px-2 py-1";
 
-export const Logo = ({route}) =>{
-  const ro = route || '/'
-  return(
+export const Logo = ({ route }) => {
+  const ro = route || "/";
+  return (
     <>
       <Link to={ro}>
         <img src="/img/logo.svg" alt="Barbada Logo" className="w-14" />
       </Link>
     </>
-  )
-}
+  );
+};
 
 export const Nav = () => {
   const { isAuthenticade, logout } = useAuth();
@@ -30,7 +31,7 @@ export const Nav = () => {
       }
       setIsResponsive(newIsResponsive);
     };
-    
+
     window.addEventListener("resize", handleResize);
 
     // Limpiar el event listener cuando el componente se desmonta
@@ -74,24 +75,28 @@ export const Nav = () => {
       ];
 
   return (
-    <div className="fixed top-0 left-0 w-full z-10 flex justify-center">
+    //fixed
+    <div className=" top-0 fixed left-0 w-full z-10 flex justify-center">
       <nav className="bg-[#000000] flex justify-between px-8 py-2 m-4 items-center w-[1363px] rounded-full ">
         <div className="flex justify-between items-center">
-          <Logo/>
+          <Logo />
         </div>
         <div className="md:hidden flex items-center z-10">
           {/* Iconos en modo responsivo */}
           {isAuthenticade && (
             <>
               <Link
-                to="/shoppingcar" className={`mr-4 ${isResponsive ? "block" : "hidden"}`}
+                to="/shoppingcar"
+                className={`mr-4 ${isResponsive ? "block" : "hidden"}`}
               >
                 <Icon
-                  icon="material-symbols:shopping-cart" className="w-6 h-6"
+                  icon="material-symbols:shopping-cart"
+                  className="w-6 h-6"
                 />
               </Link>
               <Link
-                to="/profile" className={`${isResponsive ? "block" : "hidden"}`}
+                to="/profile"
+                className={`${isResponsive ? "block" : "hidden"}`}
               >
                 <Icon icon="fa:user-circle-o" className="w-6 h-6 mr-4" />
               </Link>
@@ -143,17 +148,16 @@ export const Nav = () => {
   );
 };
 
-
-export const NavR = ({click}) =>{
-  return(
+export const NavR = ({ click }) => {
+  return (
     <nav className="bg-[#282828] text-white flex w-full p-1">
       <div className=" w-[43%] md:w-[47%] flex items-center">
-        <Icon icon='openmoji:return'/>
-        <button onClick={click} >volver</button>
+        <Icon icon="openmoji:return" />
+        <button onClick={click}>volver</button>
       </div>
       <div className=" md:w-[53%] flex items-center">
-        <Logo  />
+        <Logo />
       </div>
     </nav>
-  )
-}
+  );
+};
