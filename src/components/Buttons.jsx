@@ -121,7 +121,7 @@ export const CheckButtton = ({ register, onCheckboxChange }) => {
             checked={aceptaTodo}
             onChange={handleAceept}
             className="form-checkbox h-5 w-5 text-blue-600"
-            animate={{ scale: aceptaTodo ? 1.1 : 1 }} // Escala animada 
+            animate={{ scale: aceptaTodo ? 1.5 : 1 }} // Escala animada 
             transition={{ type: "spring", stiffness: 500, damping: 30 }} 
         />
         <label htmlFor="aceptaTodo" className="ml-2 text-gray-500 text-xs ">
@@ -131,5 +131,25 @@ export const CheckButtton = ({ register, onCheckboxChange }) => {
             <Link to="/TerminosCookies" className="text-blue-500 hover:text-blue-700">política de cookies</Link>
         </label>
     </div>
+  );
+};
+
+
+export const MenuButton = () => {
+
+  const [click, setClick] = useState(false)
+
+  const handleClick = () =>{
+    setClick(!click)
+  }
+
+  return (
+    <motion.button className={` text-white font-bold rounded-full focus:outline-none focus:shadow-outline ${click ? 'bg-red-600' : 'bg-orange-500'}`}
+    onClick={handleClick}
+    whileHover={{ scale: 1.1 }}
+    transition={{ type: "spring", stiffness: 400, damping: 10 }}
+    >
+      <Icon icon={click ? "material-symbols:check-indeterminate-small-rounded":"ic:baseline-plus"} className="w-8 h-8" />
+    </motion.button>
   );
 };
