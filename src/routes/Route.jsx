@@ -58,7 +58,7 @@ export const route = createBrowserRouter([
       },
       {
         path: "/reservations",
-        element: <Reservation />,
+        element: <Carrito />, // <Carrito /> <Reservation />
       },
       {
         path: "/menu",

@@ -127,7 +127,7 @@ const Menu = () => {
               >
                 <img
                   className="w-full h-36 object-cover rounded-xl"
-                  src="/img/Login.jpg"
+                  src="/img/camarones.jpg"
                   alt={item.text}
                 />
                 <div className="px-6 py-4 flex justify-between items-center">
