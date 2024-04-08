@@ -1,5 +1,7 @@
 import { Outlet, useLocation } from "react-router-dom";
-import {Nav, NavR} from "../components/Nav";
+import {Nav} from "../components/Nav";
+import { ToastContainer } from "react-toastify";
+import Footer from "../components/Footer";
 
 const Layout = () => {
   const location = useLocation()
@@ -8,10 +10,12 @@ const Layout = () => {
   
   return (
     <>
+    <ToastContainer pauseOnHover={false} autoClose={2000} />
     { mostrarNav ? <Nav/> : null}
     <main>
       <Outlet/>
     </main>
+    { mostrarNav ? <Footer/> : null}
     </>
   )
 }

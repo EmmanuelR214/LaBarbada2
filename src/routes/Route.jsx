@@ -3,27 +3,29 @@ import Layout from "./Layout";
 import NotFound from "./NotFound";
 
 //paginas publicas
-import { Home } from "../views/public/start/Home";
-import { Login } from "../views/public/start/Login";
-import { Register } from "../views/public/start/Register";
-import  Recuperar  from "../views/public/start/Recuperar";
-import { Prueba } from "../views/public/Prueba";
-import Data from "../views/public/start/Data";
-import UserProfile from "../views/public/UserProfile";
-import Nosotros from "../views/public/Nosotros";
-import TerminosCondiciones from "../views/public/TerminosCondiciones";
-import TerminosCookies from "../views/public/TerminosCookies";
+import { Home } from "../views/start/Home";
+import { Login } from "../views/start/Login";
+import { Register } from "../views/start/Register";
+import  Recuperar  from "../views/start/Recuperar";
+import { Prueba } from "../views/Prueba";
+import Data from "../views/start/Data";
+import UserProfile from "../views/UserProfile";
+import Nosotros from "../views/Nosotros";
+import TerminosCondiciones from "../views/TerminosCondiciones";
+import TerminosCookies from "../views/TerminosCookies";
 
 
 //Admin 
-import Predictor from "../views/admin/predictor";
+import Predictor from "../views/predictor";
 
 //Store
-import Reservation from "../views/public/Reservation";
-import Carrito from "../views/public//Carrito";
-import Menu from "../views/public//Menu";
+import Reservation from "../views/Reservation";
+import Carrito from "../views//Carrito";
+import Menu from "../views//Menu";
+import DescripcionPlatillo from "../views/DescripcionPlatillo";
 
-import ProtectedRoute from "./ProtectedRoute";
+import {ProtectedRoute} from "./ProtectedRoute";
+import Finalizepurchase from "../views/Finalizepurchase";
 
 
 export const route = createBrowserRouter([
@@ -77,6 +79,11 @@ export const route = createBrowserRouter([
         element: <TerminosCookies/>
       },
       {
+        path: '/platillo/:nombre_platillo',
+        element: <DescripcionPlatillo/>
+      },
+      //*Estos no son
+      {
         path: '/prueba',
         element: <Prueba/>
       },
@@ -99,6 +106,10 @@ export const route = createBrowserRouter([
           {
             path:'/shoppingcar',
             element: <Carrito/>
+          },
+          {
+            path: '/finally-shopping',
+            element: <Finalizepurchase/>
           }
         ]
       }

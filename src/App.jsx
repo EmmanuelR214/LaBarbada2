@@ -6,9 +6,9 @@ import { StoreProvider } from "./routes/context/StoreContext"
 function App() {
   return (
     <StoreProvider>
-    <AuthProvider>
-      <RouterProvider router={route} />
-    </AuthProvider>
+      <AuthProvider>
+        <RouterProvider router={route} />
+      </AuthProvider>
     </StoreProvider>
   )
 }

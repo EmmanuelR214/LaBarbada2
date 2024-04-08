@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 //Api
 import {verifTokenRequet, searchNumberPhoneRoute, registerRoute, loginRoute, loginFacegooRoute, sendCodeRoute, recoverPassRoute, alertRoute} from "../../utils/api/Auth";
 //Firebase
@@ -159,6 +160,7 @@ export const AuthProvider = ({children}) =>{
       setIsAuthenticade(true)
       return setSuccessAuth([`¡Bienvenido abordo!`])
     } catch (error) {
+      console.log(error)
       if(Array.isArray(error.response.data)) setErrorAuth(error.response.data)
       setErrorAuth(error.response.data)
     }
@@ -239,6 +241,13 @@ export const AuthProvider = ({children}) =>{
   
   useEffect(()=>{
     if(errorAuth.length > 0 || successAuth.length > 0){
+      if (errorAuth && Array.isArray(errorAuth)) {
+        errorAuth.forEach((error) => toast.error(error));
+      }
+      
+      if(successAuth) {
+        successAuth.forEach((success) => toast.success(success))
+      }
       const timer = setTimeout(()=>{
         setErrorAuth([])
         setSuccessAuth([])

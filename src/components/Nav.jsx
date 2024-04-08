@@ -11,7 +11,7 @@ export const Logo = ({route}) =>{
   return(
     <>
       <Link to={ro}>
-        <img src="/img/logo.svg" alt="Barbada Logo" className="w-14" />
+        <img src="/img/logo.png" alt="Barbada Logo" className="w-8" />
       </Link>
     </>
   )
@@ -157,3 +157,5 @@ export const NavR = ({click}) =>{
     </nav>
   )
 }
+
+
