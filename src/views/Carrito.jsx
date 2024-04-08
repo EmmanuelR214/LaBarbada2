@@ -20,7 +20,7 @@ const Carrito = () => {
   const navigate = useNavigate()
   
   const { data, isLoading, isError, refetch } = useQuery(['carrito', idUser], async () => {
-    const response = await fetch(`http://localhost:3000/api/get-shoppingCar/${idUser}`)
+    const response = await fetch(`https://api-barbada.vercel.app/api/get-shoppingCar/${idUser}`)
     const responseData = await response.json();
     if (!response.ok) {
       throw new Error('Error al cargar los detalles del carrito')
