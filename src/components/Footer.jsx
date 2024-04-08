@@ -1,7 +1,9 @@
 import React from 'react'
 import { ButtonLink } from './Buttons'
+import {useNavigate} from 'react-router-dom'
 
 const Footer = () => {
+  const navigate = useNavigate()
   return (
     <div className='footer-distributed'>
       <div className='footer-left' >

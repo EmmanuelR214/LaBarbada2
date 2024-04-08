@@ -34,7 +34,7 @@ const DescripcionPlatillo = () => {
   
   
   const { data, isLoading, isError } = useQuery(['platillo', platillo], async () => {
-    const response = await fetch(`https://api-barbada.vercel.app/api/descripcion-platillo/${platillo}`)
+    const response = await fetch(`http://localhost:3000/api/descripcion-platillo/${platillo}`)
     const responseData = await response.json();
     if (!response.ok) {
       throw new Error('Error al cargar los detalles del platillo')

@@ -7,9 +7,8 @@ import { MyMap } from '../components/Modal'
 const Finalizepurchase = () => {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const handleSelectLocation = (lonLat) => {
-    setSelectedLocation(lonLat);
-  };
-
+    setSelectedLocation(lonLat)
+  }
   return (
     <main className=' w-full h-screen flex flex-col justify-center items-center' >
       <div>Finalizepurchase</div>
@@ -24,5 +23,4 @@ const Finalizepurchase = () => {
     </main>
   )
 }
-
-export default Finalizepurchase
+export default Finalizepurchase 

@@ -37,7 +37,7 @@ export const ButtonBasic = ({
           <Icon icon={icon} width="1em" height="1em" />
         </span>
       )}
-      {text && <span className={`hidden sm:inline`}>{text}</span>}
+      <span >{text}</span>
     </motion.button>
   )
 }
