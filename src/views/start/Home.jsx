@@ -68,13 +68,13 @@ export const Home = () => {
           <h2 className="font-bold">EQUIPO</h2>
           <img src="/img/pulpo.svg" alt="" className="w-56 h-56" />
           <p className="text-center">En La Barbada queremos ofrecerte la mejor experiencia, en un lugar cómodo, platillos exquisitos, y una atención digna de un capitán. Por ello, el staff de La Barbada colabora para brindarte una experiencia para recordar.</p>
-          <ButtonHome icon='' text='CONOCENOS' />
+          <ButtonHome icon='' text='CONOCENOS' to='/weare' />
         </div>
         <div className="w-full md:w-1/3 p-4 flex flex-col items-center">
           <h2 className="font-bold">HISTORIA</h2>
           <img src="/img/barco.svg" alt="" className="w-56 h-56" />
           <p className="text-center">20 años de un exquisito viaje, cuando todo comenzó como un pequeño botanero familiar, hoy tenemos el gusto de celebrar contigo la rica cocina que hemos perfeccionado a través de los años.</p>
-          <ButtonHome icon='' text='LEER MÁS...' />
+          <ButtonHome icon='' text='LEER MÁS...' to='/weare' />
         </div>
       </section>
       <section className="flex flex-col items-center justify-center bg-[#020303] md:flex-row md:h-auto">

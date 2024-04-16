@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 //Componentes
 import { NavR } from '../../components/Nav';
-import { InputBasic } from '../../components/Inputs';
+import { InputEmail, VerificationInput, InputPassword, InputPasswordConfirm, InputBasic } from '../../components/Inputs';
 import { ButtonBasic } from '../../components/Buttons';
 import { useAuth } from '../../routes/context/AuthContext';
 
@@ -72,7 +72,7 @@ const Recuperar = () => {
   const handleCompareCode = handleSubmit(async(values) =>{
     try {
       const valor = localStorage.getItem('codigo')
-      if(values.codigo === valor){
+      if(values.code === valor){
         localStorage.removeItem('codigo')
         handleNextStep()
       }
@@ -92,7 +92,7 @@ const Recuperar = () => {
       e.preventDefault()
       const mail = localStorage.getItem('correo')
       const codigo = await sendCodeEmail(mail)
-      localStorage.setItem('codigo', codigo.data)
+      localStorage.setItem('codigo', codigo.data[0])
       toast.success('código enviado nuevamente')
     } catch (error) {
       console.log(error)
@@ -110,43 +110,82 @@ const Recuperar = () => {
       console.log(error)
     }
   })
-  
-  
-  const styleForm = 'w-1/4 flex flex-col items-center justify-center text-center space-y-4'
-  
   const renderStepForm = () => {
     switch (step) {
       case 1:
         return (
-          <form onSubmit={handleSendCode} className={`${styleForm}`} >
-            <h2 className=' font-bold md:text-2xl' >Recuperación de contraseña</h2>
-            <InputBasic titulo='Correo' nombre='correo' tipo='text' minimo='8' maximo='100'  err={errors} method={register} val={setValue} look={watch} triger={trigger} />
-            <ButtonBasic text='Enviar código' width='w-full' />
-          </form>
+          <div className="min-h-screen">
+          <div className="flex justify-center items-center min-h-screen">
+            <div className="w-full md:w-96">
+              <div className="bg-zinc-800 p-4 shadow-white rounded-md">
+                <div className="min-h-20 flex items-center justify-center mb-6">
+                  <img src="/img/emblema.png" alt="Logo de la Empresa" className="w-full max-w-full max-h-full" />
+                </div>
+                <div className="text-center" >
+                  <h2 className="mb-1 text-magenta text-gray-200 font-bold">Recuperación de contraseña</h2>
+                  <p className="text-gray-400 mb-4">Introduce tu correo electronico y te enviaremos un código de verificación.</p>
+                  </div>
+                  <form onSubmit={handleSendCode} className="space-y-5">
+                  <InputEmail title='Correo' name='correo' min='10' max='100' err={errors} method={register} look={watch} /> 
+                  <ButtonBasic text="Enviar código" />
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
         )
       case 2:
         return (
-          <form onSubmit={handleCompareCode} className={`${styleForm}`} >
-            <h2 className=' font-bold md:text-2xl' >Ingrese código</h2>
-            <InputBasic titulo='Código' nombre='codigo' tipo='text' minimo='6' maximo='11'  err={errors} method={register} val={setValue} look={watch} triger={trigger} />
-            <ButtonBasic width='w-full' text='Verificar código'/>
-            <p>Volver a enviar el codigo: {minutes < 10 ? '0' + minutes : minutes}:{seconds < 10 ? '0' + seconds : seconds}</p>
-            <ButtonBasic width='w-full' text='Enviar codigo nuevamente' click={handleResendCode} disabled={timeLeft > 0} />
-          </form>
+          <div className="min-h-screen">
+          <div className="flex justify-center items-center min-h-screen">
+            <div className="w-full md:w-96">
+              <div className="bg-zinc-800 p-4 shadow-white rounded-md">
+                <div className="min-h-20 flex items-center justify-center mb-6">
+                  <img src="/img/emblema.png" alt="Logo de la Empresa" className="w-full max-w-full max-h-full" />
+                </div>
+                <div className="text-center" >
+                  <h2 className="mb-1 text-magenta text-gray-200 font-bold">Introduce el código</h2>
+                  <p className="text-gray-400 mb-4">Introduce el código de verificación que te ha llegado al correo.</p>
+                  </div>
+                  <form onSubmit={handleCompareCode} className="space-y-5">
+                  <VerificationInput title='Código de verificación' name='code' min='6' max='6' pattern={/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).*$/
+} err={errors} method={register} val={setValue} />  
+                    <p className='text-center' >Volver a enviar el codigo: {minutes < 10 ? '0' + minutes : minutes}:{seconds < 10 ? '0' + seconds : seconds}</p>
+                    <ButtonBasic width='w-full' text='Enviar codigo nuevamente' click={handleResendCode} disabled={timeLeft > 0} />
+                    <ButtonBasic text="verificar código" />
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
         )
       case 3:
         return (
-          <form onSubmit={handleRecoverPasword} className={`${styleForm}`}  >
-            <h2 className=' font-bold md:text-2xl'>Cambiar contraseña</h2>
-            <InputBasic titulo='contraseña' nombre='pass' tipo='password' minimo='8' maximo='16'  err={errors} method={register} val={setValue} look={watch} triger={trigger} />
-            <ButtonBasic text='Enviar código' width='w-full' />
-          </form>
+          <div className="min-h-screen">
+          <div className="flex justify-center items-center min-h-screen">
+            <div className="w-full md:w-96">
+              <div className="bg-zinc-800 p-4 shadow-white rounded-md">
+                <div className="min-h-20 flex items-center justify-center mb-6">
+                  <img src="/img/emblema.png" alt="Logo de la Empresa" className="w-full max-w-full max-h-full" />
+                </div>
+                <div className="text-center" >
+                  <h2 className="mb-1 text-magenta text-gray-200 font-bold">Cambia tu contraseña</h2>
+                  <p className="text-gray-400 mb-4">No compartas tu contraseña con nadie más.</p>
+                  </div>
+                  <form onSubmit={handleRecoverPasword} className="space-y-5">
+                    <InputPassword title='Contraseña' name='pass' min='8' max='16' err={errors} method={register} look={watch} val={setValue} triger={trigger} />
+                    <InputPasswordConfirm title='Contraseña' name='passConf' min='8' max='16' err={errors} method={register} look={watch} val={setValue} triger={trigger} />
+                    <ButtonBasic text="Enviar código" />
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
         )
       default:
         return null
     }
   }
-
   return (
     <>
       <NavR click={handlePrevStep} />

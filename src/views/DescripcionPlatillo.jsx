@@ -34,7 +34,7 @@ const DescripcionPlatillo = () => {
   
   
   const { data, isLoading, isError } = useQuery(['platillo', platillo], async () => {
-    const response = await fetch(`https://api-barbada.vercel.app/api/descripcion-platillo/${platillo}`)
+    const response = await fetch(`http://localhost:3000/api/descripcion-platillo/${platillo}`)
     const responseData = await response.json();
     if (!response.ok) {
       throw new Error('Error al cargar los detalles del platillo')
@@ -102,6 +102,7 @@ const DescripcionPlatillo = () => {
         navigate('/Login')
       }else {
         const promesas = [];
+        //console.log(user.id)
         if (selectedOptionExtra.length > 0) {
           for (const item of selectedOptionExtra) {
             promesas.push(InsertarCarrito(item.value, user.id, 1, item.precio));

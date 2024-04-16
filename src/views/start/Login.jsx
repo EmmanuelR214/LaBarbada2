@@ -12,7 +12,7 @@ import { useAuth } from "../../routes/context/AuthContext"
 
 //Components
 import { ButtonBasic } from "../../components/Buttons"
-import { InputBasic} from "../../components/Inputs"
+import { InputBasic, InputDesign, InputEmail, InputPassword, InputPasswordConfirm, InputPhone} from "../../components/Inputs"
 import { TextLink } from "../../components/Text"
 
 export const Login = () => {
@@ -96,8 +96,8 @@ export const Login = () => {
           <h1 className="text-lg">Bienvenido a <span className="text-red-700">Barbada Order</span></h1>
         </div>
         <form onSubmit={onSubmit} className="mt-4 w-full space-y-8 md:space-y-11 md:w-3/4 lg:w-1/2">
-        <InputBasic titulo='Nombre de usuario' nombre='correo' tipo='text' minimo='8' maximo='100'  err={errors} method={register} val={setValue} look={watch} triger={trigger} />
-          <InputBasic titulo='Contraseña' nombre='passLog' tipo='password' minimo='3' maximo='20'  err={errors} method={register} val={setValue} look={watch} triger={trigger} />
+          <InputDesign title='Correo o teléfono' name='dato' min='10' max='100' icon='solar:user-bold' err={errors} method={register} look={watch}/>
+          <InputPassword title='Contraseña' name='pass' min='8' max='16' err={errors} method={register} look={watch} val={setValue} triger={trigger} />
           <ButtonBasic text='Iniciar sesión' disabled={bloqueado}  />
         </form>
         <div className="flex md:flex-col justify-center w-full md:w-3/4 lg:w-1/2 space-x-3 md:space-x-0 lg:space-x-0 space-y-0 md:space-y-3 ">
@@ -115,6 +115,11 @@ export const Login = () => {
   )
 }
 
+/*
+           <InputPasswordConfirm title='Contraseña' name='passConf' min='8' max='16' err={errors} method={register} look={watch} val={setValue} triger={trigger} />
+          <InputPhone title='Teléfono' name='tel' min='10' max='10' err={errors} method={register} look={watch} val={setValue} triger={trigger} />
+          <InputEmail title='Correo' name='correo' min='10' max='100' err={errors} method={register} look={watch} /> 
+*/
 
 /*
           <InputBasic titulo='Nombre de usuario' nombre='correo' tipo='text' minimo='8' maximo='100'  err={errors} method={register} val={setValue} look={watch} triger={trigger} />

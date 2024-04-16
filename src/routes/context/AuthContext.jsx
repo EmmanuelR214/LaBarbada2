@@ -122,8 +122,8 @@ export const AuthProvider = ({children}) =>{
   const signin = async(user) =>{
     try {
       const logUser = {
-        param: user.correo,
-        password: user.passLog
+        param: user.dato,
+        password: user.pass
       }
       
       const res = await loginRoute(logUser)
@@ -259,7 +259,6 @@ export const AuthProvider = ({children}) =>{
   useEffect(()=>{
     async function chackLogin  () {
       const cookie = Cookies.get()
-      
       if(!cookie.token) {
         setIsAuthenticade(false)
         setLoading(false)

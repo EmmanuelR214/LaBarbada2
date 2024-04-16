@@ -15,17 +15,17 @@ function Predictor() {
   const pronosticoPlatillo = (e) => {
     let c, k, p
     e.preventDefault()
+    
     c = Math.exp(data.ventaTiempo1) * data.primeraVenta
-    k = Math.log(data.ventaTiempo2 / ((c != 0) ? c : 1)) / data.segundaVenta
-    console.log('Valor de k',k)
+    k = Math.log(data.ventaTiempo2 / ((c < 0 || c>0) ? c : 1)) / data.segundaVenta
     p = ((c != 0) ? c : 1) * Math.exp(k * data.tiempoDiferencial)
     const sinDecimal = Math.trunc(p)
-    setplatilloPronostico(sinDecimal)
-    if(p >= 1){
-      toast.success(`Prediccion de venta: ${sinDecimal}`)
-    }else{
-      toast.warning(`Cuidado perdida potencial: ${p}`)
-    }
+    setplatilloPronostico(p)
+    // if(p >= 1){
+    //   toast.success(`Prediccion de venta: ${sinDecimal}`)
+    // }else{
+    //   toast.warning(`Cuidado perdida potencial: ${p}`)
+    // }
   }
   
   const handleChange = (e) => {
@@ -55,13 +55,13 @@ function Predictor() {
               <label className="block tracking-wide text-xs font-bold mb-2" htmlFor="ventaTiempo2">
                 Platillos vendidos:
               </label>
-              <input className="appearance-none text-black  block w-full bg-gray-200 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="number" name="primeraVenta" onChange={handleChange} />
+              <input className="appearance-none text-black  block w-full bg-gray-200 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="number"  name="primeraVenta" onChange={handleChange} />
             </div>
             <div className="w-full md:w-1/2 px-3">
               <label className="block tracking-wide text-xs font-bold mb-2" htmlFor="segundaVenta">
                 Tiempo en que se vendieron (meses)
               </label>
-              <input className="appearance-none text-black  block w-full bg-gray-200 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="number" name="ventaTiempo1" onChange={handleChange} />
+              <input className="appearance-none text-black  block w-full bg-gray-200 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="number"  name="ventaTiempo1" onChange={handleChange} />
             </div>
           </div>
           <h1 className=" text-base font-bold my-5" >Proximo venta (segundos datos)</h1>
@@ -70,13 +70,13 @@ function Predictor() {
               <label className="block tracking-wide text-xs font-bold mb-2" htmlFor="ventaTiempo2">
                 Platillos vendidos:
               </label>
-              <input className="appearance-none text-black  block w-full bg-gray-200 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="number" name="ventaTiempo2" value={data.ventaTiempo2} onChange={handleChange} />
+              <input className="appearance-none text-black  block w-full bg-gray-200 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="number"  name="ventaTiempo2" value={data.ventaTiempo2} onChange={handleChange} />
             </div>
             <div className="w-full md:w-1/2 px-3">
               <label className="block tracking-wide text-xs font-bold mb-2" htmlFor="segundaVenta">
                 Tiempo en que se vendieron (meses):
               </label>
-              <input className="appearance-none text-black  block w-full bg-gray-200 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="number" name="segundaVenta" value={data.segundaVenta} onChange={handleChange} />
+              <input className="appearance-none text-black  block w-full bg-gray-200 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="number"  name="segundaVenta" value={data.segundaVenta} onChange={handleChange} />
             </div>
           </div>
           <h1 className=" text-base font-bold my-5" >Pronostico de venta</h1>
@@ -88,7 +88,7 @@ function Predictor() {
               <label className="block tracking-wide text-xs font-bold mb-2" htmlFor="ventaTiempo2">
                 Meses a predecir 
               </label>
-              <input className="appearance-none text-black  block w-full bg-gray-200 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="number" name="tiempoDiferencial" onChange={handleChange} />
+              <input className="appearance-none text-black  block w-full bg-gray-200 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="number"  name="tiempoDiferencial" onChange={handleChange} />
             </div>
           </div>
           <div className="w-full px-3">
