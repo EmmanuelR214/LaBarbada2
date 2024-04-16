@@ -15,7 +15,8 @@ import TerminosCondiciones from "../views/public/TerminosCondiciones";
 import TerminosCookies from "../views/public/TerminosCookies";
 
 import DetalleP from "../views/public/DetalleP";
-
+import FinalizarCompra from "../views/public/FinalizarCompra";
+import DashboardAdmnin from "../views/public/DashboardAdmin";
 //Admin
 import Predictor from "../views/admin/predictor";
 
@@ -23,6 +24,7 @@ import Predictor from "../views/admin/predictor";
 import Reservation from "../views/public/Reservation";
 import Carrito from "../views/public//Carrito";
 import Menu from "../views/public//Menu";
+
 
 import ProtectedRoute from "./ProtectedRoute";
 
@@ -58,7 +60,7 @@ export const route = createBrowserRouter([
       },
       {
         path: "/reservations",
-        element: <Carrito />, // <Carrito /> <Reservation />
+        element: <DashboardAdmnin />, // <Carrito /> <Reservation />
       },
       {
         path: "/menu",
@@ -66,7 +68,7 @@ export const route = createBrowserRouter([
       },
       {
         path: "/weare",
-        element: <Nosotros />,
+        element: <FinalizarCompra />,
       },
       {
         path: "/TerminosCondiciones",

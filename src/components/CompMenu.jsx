@@ -57,7 +57,57 @@ export const CustomSelect = ({ options, placeholder, onChange, value }) => {
 
 
 
+export const CustomSelect2 = ({ options, placeholder, onChange, value }) => {
+  const [isOpen, setIsOpen] = useState(false);
 
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
+
+  return (
+    <div className="relative">
+      <div
+        className="appearance-none rounded px-3 py-4 w-full text-white leading-tight focus:outline-none pr-10 bg-zinc-800"
+        onClick={toggleDropdown}
+      >
+        <div className="flex justify-between items-center">
+          <span>{value ? value.label : placeholder}</span>
+          <Icon
+            icon="material-symbols:expand-more"
+            className={`text-3xl text-white absolute right-1 flex items-center ${isOpen ? "rotate-180" : ""}`}
+          />
+        </div>
+      </div>
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+            className="absolute w-full bg-zinc-800 shadow-md mt-1 rounded  text-white z-10"
+          >
+            <ul>
+              {options.map((option, index) => (
+                <li key={index} className="px-3 py-2 rounded hover:bg-gray-600">
+                  <button
+                    className="w-full text-left focus:outline-none"
+                    onClick={() => {
+                      onChange(option);
+                      toggleDropdown();
+                    }}
+                  >
+                    {option.label}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
 
 
 

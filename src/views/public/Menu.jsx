@@ -114,7 +114,14 @@ const Menu = () => {
         </h1>
         <div className="flex mb-6">
           {" "}
-          <InputSearch></InputSearch>
+          <InputSearch 
+            textColor="text-white" 
+            iconColor="text-white" 
+            placeholderColor="text-gray-400" 
+            bgColor="bg-zinc-800" 
+            placeholderText="Buscar"
+            width="w-full"
+          />
           {/* InputSearch component */}
         </div>
         {/* AQUI VAN LAS TARJETAS */}

@@ -76,7 +76,7 @@ export const Nav = () => {
 
   return (
     //fixed
-    <div className=" top-0 fixed left-0 w-full z-10 flex justify-center">
+    <div className=" top-0  left-0 w-full z-10 flex justify-center">
       <nav className="bg-[#000000] flex justify-between px-8 py-2 m-4 items-center w-[1363px] rounded-full ">
         <div className="flex justify-between items-center">
           <Logo />

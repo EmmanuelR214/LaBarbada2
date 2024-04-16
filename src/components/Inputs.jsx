@@ -207,21 +207,27 @@ export const InputPassword = () => {
   );
 };
 
-export const InputSearch = () => {
-  
+export const InputSearch = ({ 
+  textColor, 
+  iconColor, 
+  placeholderColor, 
+  bgColor, 
+  width, 
+  placeholderText 
+}) => {
   return (
-   
-      <div className="relative w-full ">
-        <div className="relative">
-          <input
-            type="text"
-            className="text-white rounded-lg p-3 pr-10 pl-12 px-3
-             w-full focus:outline-none bg-zinc-800 text-xl" placeholder="Buscar"
-          />
-          <div className="absolute inset-y-0 left-0 flex items-center p-2 ">
-            <Icon icon="material-symbols:search" className="text-white text-3xl" />
-          </div>
+    <div className= {`relative ${width}`}>
+      <div className="relative">
+        <input
+          type="text"
+          className={`rounded-lg p-2 pr-10 pl-12 px-3 w-full focus:outline-none text-xl ${bgColor} ${textColor}  `}
+          placeholder={placeholderText}
+          style={{ color: placeholderColor }}
+        />
+        <div className="absolute inset-y-0 left-0 flex items-center p-2 ">
+          <Icon icon="material-symbols:search" className={` text-3xl ${iconColor}`} /> 
         </div>
       </div>
+    </div>
   );
 };
