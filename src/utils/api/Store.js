@@ -6,7 +6,7 @@ export const PrecioRoute = precio => axios.post('/precio-platillo', precio)
 
 export const DetalleXPrecio = precio => axios.post('/detalle-x-precio',precio)
 
-export const InsertarCarritoRoute = carrito => axios.post('shoppingcar', carrito)
+export const InsertarCarritoRoute = carrito => axios.post('/shoppingcar', carrito)
 
 export const UpdateShoppingCarRoute = car => axios.put('/update-shoppingcar', car)
 
