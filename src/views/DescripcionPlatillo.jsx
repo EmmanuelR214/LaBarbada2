@@ -158,7 +158,7 @@ const DescripcionPlatillo = () => {
       <section className="w-full md:w-1/2 order-2 md:order-1 flex items-center justify-center" >
         <div className="bg-zinc-800 p-8 items-center flex rounded-xl h-full relative overflow-hidden">
         <img
-          src={`/img/${data[0].imagen_platillo}`}
+          src={`https://labarbada.store/imagenes/${data[0].imagen_platillo}`}
           className="rounded-xl w-full h-full object-cover"
           alt="Producto"
         />

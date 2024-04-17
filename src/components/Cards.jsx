@@ -31,7 +31,7 @@ export const CardMenu = ({img, title, precio }) => {
   return (
     <div className="max-w-sm rounded-xl overflow-hidden bg-zinc-800 relative" >
       <button className='w-full' onClick={RedirectRoute} >
-      {img && ( <img className="w-full h-36 object-cover rounded-xl" src={`/img/${img}`} alt="imagen"/> )}
+      {img && ( <img className="w-full h-36 object-cover rounded-xl" src={`https://labarbada.store/imagenes/${img}`} alt="imagen"/> )}
       </button>
       <div className=' w-full flex'>
         <div className="px-6 py-4 flex flex-col text-lg w-3/5" >
