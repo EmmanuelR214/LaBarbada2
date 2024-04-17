@@ -10,7 +10,7 @@ export const InsertarCarritoRoute = carrito => axios.post('/shoppingcar', carrit
 
 export const UpdateShoppingCarRoute = car => axios.put('/update-shoppingcar', car)
 
-export const DeleteCarRoute = id_car => axios.delete(`delete-shoppingcar/${id_car}`)
+export const DeleteCarRoute = id_car => axios.delete(`/delete-shoppingcar/${id_car}`)
 
 
 
