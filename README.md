@@ -133,13 +133,13 @@ La estrategia de versionamiento elegida es **GitHub Flow** debido a su simplicid
 
 ## Creación Revisión y Fusión de Ramas
 1. Creacion 
-Para trabajar de manera eficiente y organizada, se recomienda crear ramas específicas para cada nueva característica o corrección de errores. Utiliza el siguiente comando para crear una nueva rama:
+  * Para trabajar de manera eficiente y organizada, se recomienda crear ramas específicas para cada nueva característica o corrección de errores. Utiliza el siguiente comando para crear una nueva rama:
 
   ```bash
     git checkout -b nombre-de-la-rama
   ```
 2. Revision
-   Una vez que se han realizado cambios en una rama, se debe enviar un Pull Request (PR) para iniciar la revisión del código
+  * Una vez que se han realizado cambios en una rama, se debe enviar un Pull Request (PR) para iniciar la revisión del código
    1. Realiza un push de tu rama al repositorio remoto:
         ```bash
           git push origin nombre-de-la-rama
@@ -149,9 +149,9 @@ Para trabajar de manera eficiente y organizada, se recomienda crear ramas espec�
    4. Selecciona tu rama y sigue las instrucciones para completar el PR.
    
 4. Fusión 
-Una vez que el Pull Request ha sido revisado y aprobado, puedes fusionar los cambios en la rama principal (main). Esto se puede hacer directamente en la interfaz de GitHub:
-  1. Haz clic en el botón "Merge Pull Request" en la página del PR.
-  2. Confirma la fusión.
+  * Una vez que el Pull Request ha sido revisado y aprobado, puedes fusionar los cambios en la rama principal (main). Esto se puede hacer directamente en la interfaz de GitHub:
+    1. Haz clic en el botón "Merge Pull Request" en la página del PR.
+    2. Confirma la fusión.
   
   
 ## Estrategia de Despliegue
