@@ -13,7 +13,7 @@ Este proyecto tiene como objetivo transformar una aplicación web de E-Commerce 
 - [Revisión entre los Miembros del Equipo](#revisión-entre-los-miembros-del-equipo)
 - [Flujo de Trabajo](#flujo-de-trabajo)
 - [Estrategia de Versionamiento y Gestión de Ramas](#estrategia-de-versionamiento-y-gestión-de-ramas)
-- [Creación, Revisión y Fusión de Ramas](#creación,-revisión-y-fusión-de-ramas)
+- [Creación Revisión y Fusión de Ramas](#creación-revisión-y-fusión-de-ramas)
 - [Estrategia de Despliegue](#estrategia-de-despliegue)
 - [Pila Tecnologica](#pila-tecnologica)
 - [Instalación](#instalación)
@@ -131,7 +131,7 @@ La estrategia de versionamiento elegida es **GitHub Flow** debido a su simplicid
 - **Errores:** Rama dedicada a la identificación y corrección de errores de funcionamiento o mejoras en los componentes del proyecto.
 - **Máster:** Rama por defecto, donde se fusionan los cambios realizados en las ramas anteriores después de pasar por revisión y pruebas.
 
-## Creación, Revisión y Fusión de Ramas
+## Creación Revisión y Fusión de Ramas
 1. Creacion 
 Para trabajar de manera eficiente y organizada, se recomienda crear ramas específicas para cada nueva característica o corrección de errores. Utiliza el siguiente comando para crear una nueva rama:
 
