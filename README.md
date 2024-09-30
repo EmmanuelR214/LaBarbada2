@@ -186,17 +186,19 @@ Algunas características clave de esta estrategia:
 
 ## Pila Tecnológica
 
+
 - **Node.js**
-  ![Node.js](https://nodejs.org/static/images/logos/nodejs-new-pantone-black.svg](https://www.google.com/url?sa=i&url=http%3A%2F%2Fpbox.me%2Fpackages%2Fnodejs-portable&psig=AOvVaw1ZBbf6LGMg88qb49Ayd6oD&ust=1727753349713000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCOCCsvfc6YgDFQAAAAAdAAAAABAE )
+  ![Node.js](https://nodejs.org/static/images/logos/nodejs-new-pantone-black.svg =100x100)
 
 - **Express**
-  ![Express](https://expressjs.com/images/express-facebook-share.png)
+  ![Express](https://expressjs.com/images/express-facebook-share.png =100x100)
 
 - **React**
-  ![React](https://reactjs.org/logo-og.png)
+  ![React](https://reactjs.org/logo-og.png =100x100)
 
 - **MySQL**
-  ![MySQL](https://www.mysql.com/common/logos/logo-mysql-170x115.png)
+  ![MySQL](https://www.mysql.com/common/logos/logo-mysql-170x115.png =100x100)
+
 
 
 ## Instalación
