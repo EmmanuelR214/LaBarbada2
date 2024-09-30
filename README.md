@@ -1,4 +1,4 @@
-# Proyecto PWA - Transformación de Aplicación Web de E-Commerce para Restaurante La Barbada
+# Planeación del proceso de desarrollo de software - Enfoque Web
 
 Este proyecto tiene como objetivo transformar una aplicación web de E-Commerce existente en una **Progressive Web Application (PWA)** para el restaurante La Barbada. Las PWAs permiten a los usuarios disfrutar de una experiencia similar a la de una aplicación nativa, con características como la capacidad de trabajar sin conexión, notificaciones push, y un rendimiento mejorado en dispositivos móviles, todo sin necesidad de descargar la aplicación desde una tienda de aplicaciones.
 
