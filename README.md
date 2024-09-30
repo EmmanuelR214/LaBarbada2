@@ -58,12 +58,12 @@ Sigue estos pasos para instalar y configurar el proyecto en tu entorno local.
 
 1. Clona el repositorio:
     ```bash
-    git clone https://github.com/usuario/proyecto-pwa.git
+    git clone https://github.com/EmmanuelR214/LaBarbada2.git
     ```
 
 2. Entra en el directorio del proyecto:
     ```bash
-    cd proyecto-pwa
+    cd LaBarbada2
     ```
 
 3. Instala las dependencias:
