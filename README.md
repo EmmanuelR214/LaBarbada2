@@ -188,16 +188,16 @@ Algunas características clave de esta estrategia:
 
 
 - **Node.js**
-  ![Node.js](https://nodejs.org/static/images/logos/nodejs-new-pantone-black.svg =100x100)
+  ![Node.js](https://lh3.googleusercontent.com/proxy/ULN9eqCb30WW559cJhquYsjR5GkhIEtt_NW0TRjzmwoX2tMs_FpOUWamTj-isgUwAa9W05VzndBMhBHnVnHiLM0QbA)
 
 - **Express**
-  ![Express](https://expressjs.com/images/express-facebook-share.png =100x100)
+  ![Express](https://cdn.iconscout.com/icon/free/png-256/free-express-9-1175170.png)
 
 - **React**
-  ![React](https://reactjs.org/logo-og.png =100x100)
+  ![React](https://dabeng.github.io/img/reactjs.png)
 
 - **MySQL**
-  ![MySQL](https://www.mysql.com/common/logos/logo-mysql-170x115.png =100x100)
+  ![MySQL](https://www.mysql.com/common/logos/logo-mysql-170x115.png)
 
 
 
