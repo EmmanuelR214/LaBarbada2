@@ -15,6 +15,7 @@ Este proyecto tiene como objetivo transformar una aplicación web de E-Commerce 
 - [Estrategia de Versionamiento y Gestión de Ramas](#estrategia-de-versionamiento-y-gestión-de-ramas)
 - [Creación Revisión y Fusión de Ramas](#creación-revisión-y-fusión-de-ramas)
 - [Estrategia de Despliegue](#estrategia-de-despliegue)
+- [Entornos](#entornos) 
 - [Pila Tecnologica](#pila-tecnologica)
 - [Instalación](#instalación)
 - [Uso](#uso)
@@ -132,13 +133,13 @@ La estrategia de versionamiento elegida es **GitHub Flow** debido a su simplicid
 - **Máster:** Rama por defecto, donde se fusionan los cambios realizados en las ramas anteriores después de pasar por revisión y pruebas.
 
 ## Creación Revisión y Fusión de Ramas
-1. Creacion 
+1. *Creacion* 
   * Para trabajar de manera eficiente y organizada, se recomienda crear ramas específicas para cada nueva característica o corrección de errores. Utiliza el siguiente comando para crear una nueva rama:
 
   ```bash
     git checkout -b nombre-de-la-rama
   ```
-2. Revision
+2. *Revision*
   * Una vez que se han realizado cambios en una rama, se debe enviar un Pull Request (PR) para iniciar la revisión del código
    1. Realiza un push de tu rama al repositorio remoto:
         ```bash
@@ -148,7 +149,7 @@ La estrategia de versionamiento elegida es **GitHub Flow** debido a su simplicid
    3. Haz clic en "New Pull Request"
    4. Selecciona tu rama y sigue las instrucciones para completar el PR.
    
-3. Fusión 
+3. *Fusión* 
   * Una vez que el Pull Request ha sido revisado y aprobado, puedes fusionar los cambios en la rama principal (main). Esto se puede hacer directamente en la interfaz de GitHub:
     1. Haz clic en el botón "Merge Pull Request" en la página del PR.
     2. Confirma la fusión.
@@ -162,11 +163,41 @@ Algunas características clave de esta estrategia:
 - Riesgos mitigados mediante pruebas exhaustivas en entornos de desarrollo antes del despliegue en producción.
 - Apto para proyectos con un volumen de tráfico moderado y actualizaciones no frecuentes.
 
-## Pila tecnologica
-- **Node.js** 
+## Entornos
+
+### Desarrollo
+**Gestión de tareas y planificación:**
+- **ClickUp**: Usado para la gestión de proyectos y tareas, para planificar el desarrollo, asignar tareas y gestionar el progreso.
+
+**Control de versiones:**
+- **Git + GitHub**: Usado para manejar el control de versiones, colaborar en el código y gestionar revisiones mediante pull requests y ramas.
+
+**Entorno de desarrollo:**
+- **Visual Studio Code (VSCode)**: Editor de código utilizado para el desarrollo de la PWA. Ofrece soporte robusto para HTML, CSS y JavaScript, además de extensiones útiles para facilitar el trabajo con frameworks y librerías web.
+
+### Staging
+**Testing de la PWA:**
+- **Lighthouse**: Usado para realizar auditorías de rendimiento, accesibilidad y mejores prácticas de la PWA en un entorno de staging antes de su lanzamiento.
+
+### Producción
+**Servidor:**
+- **Hostinger**: Usado para desplegar la PWA en producción. Ofrece un entorno confiable para alojar la aplicación y garantizar su disponibilidad para los usuarios finales.
+
+
+## Pila Tecnológica
+
+- **Node.js**
+  ![Node.js](https://nodejs.org/static/images/logos/nodejs-new-pantone-black.svg)
+
 - **Express**
+  ![Express](https://expressjs.com/images/express-facebook-share.png)
+
 - **React**
+  ![React](https://reactjs.org/logo-og.png)
+
 - **MySQL**
+  ![MySQL](https://www.mysql.com/common/logos/logo-mysql-170x115.png)
+
 
 ## Instalación
 Sigue estos pasos para instalar y configurar el proyecto en tu entorno local.
