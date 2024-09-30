@@ -128,7 +128,7 @@ El flujo de trabajo seleccionado es **GitHub Flow**, que se adapta a las caracte
 
 ## Estrategia de Versionamiento y Gestión de Ramas
 La estrategia de versionamiento elegida es **GitHub Flow** debido a su simplicidad y adaptabilidad a un equipo pequeño. Las ramas están divididas de la siguiente manera:
-- **Feature:** Ramas dedicadas a la corrección o cambios de funcionamiento basados en la retroalimentación del cliente. Incluye ajustes de diseño y funcionalidad.
+- **utilidades:** Ramas dedicadas a la corrección o cambios de funcionamiento basados en la retroalimentación del cliente. Incluye ajustes de diseño y funcionalidad.
 - **Errores:** Rama dedicada a la identificación y corrección de errores de funcionamiento o mejoras en los componentes del proyecto.
 - **Máster:** Rama por defecto, donde se fusionan los cambios realizados en las ramas anteriores después de pasar por revisión y pruebas.
 
