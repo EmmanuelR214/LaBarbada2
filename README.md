@@ -187,7 +187,7 @@ Algunas características clave de esta estrategia:
 ## Pila Tecnológica
 
 - **Node.js**
-  ![Node.js](https://nodejs.org/static/images/logos/nodejs-new-pantone-black.svg)
+  ![Node.js]([https://nodejs.org/static/images/logos/nodejs-new-pantone-black.svg](https://www.google.com/url?sa=i&url=http%3A%2F%2Fpbox.me%2Fpackages%2Fnodejs-portable&psig=AOvVaw1ZBbf6LGMg88qb49Ayd6oD&ust=1727753349713000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCOCCsvfc6YgDFQAAAAAdAAAAABAE))
 
 - **Express**
   ![Express](https://expressjs.com/images/express-facebook-share.png)
