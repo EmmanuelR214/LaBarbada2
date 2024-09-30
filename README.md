@@ -148,7 +148,7 @@ La estrategia de versionamiento elegida es **GitHub Flow** debido a su simplicid
    3. Haz clic en "New Pull Request"
    4. Selecciona tu rama y sigue las instrucciones para completar el PR.
    
-4. Fusión 
+3. Fusión 
   * Una vez que el Pull Request ha sido revisado y aprobado, puedes fusionar los cambios en la rama principal (main). Esto se puede hacer directamente en la interfaz de GitHub:
     1. Haz clic en el botón "Merge Pull Request" en la página del PR.
     2. Confirma la fusión.
