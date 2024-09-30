@@ -10,8 +10,10 @@ Este proyecto tiene como objetivo transformar una aplicación web de E-Commerce 
 - [Metodología de Trabajo (Scrum)](#metodología-de-trabajo-scrum)
 - [Herramienta para la gestión de issues](#herramienta-para-la-gestión-de-issues)
 - [Control de Versiones](#control-de-versiones)
+- [Revisión entre los Miembros del Equipo](#revisión-entre-los-miembros-del-equipo)
 - [Flujo de Trabajo](#flujo-de-trabajo)
 - [Estrategia de Versionamiento y Gestión de Ramas](#estrategia-de-versionamiento-y-gestión-de-ramas)
+- [Creación, Revisión y Fusión de Ramas](#creación,-revisión-y-fusión-de-ramas)
 - [Estrategia de Despliegue](#estrategia-de-despliegue)
 - [Pila Tecnologica](#pila-tecnologica)
 - [Instalación](#instalación)
@@ -109,6 +111,17 @@ Para la gestión de issues se ha decidido usar **ClickUp** como herramienta en l
 ## Control de Versiones
 La herramienta seleccionada para el control de versiones es **Git + GitHub**, con las cuales se ha trabajado previamente en otros proyectos. Esta combinación permite un flujo de trabajo ágil y eficiente. El uso de **Pull Requests (PR)** facilita la revisión de código antes de integrar cambios en la rama principal del proyecto.
 
+## Revisión entre los Miembros del Equipo
+
+- **GitHub** permite la colaboración eficaz mediante el uso de ramas, lo que permite que cada miembro del equipo pueda:
+  - Realizar cambios.
+  - Corregir errores.
+  - Añadir nuevas características al proyecto sin afectar el código de producción.
+
+- Se utilizarán **Pull Requests** para realizar cambios entre ramas, asignando a un revisor del equipo de desarrollo para que:
+  - Revise y valide los cambios propuestos.
+  - Comente y apruebe los cambios antes de integrarlos al código base.
+
 ## Flujo de Trabajo
 El flujo de trabajo seleccionado es **GitHub Flow**, que se adapta a las características del proyecto y al tamaño del equipo, compuesto por 2 integrantes. Cada miembro está encargado de una rama dedicada a una tarea específica, como la corrección de errores o la implementación de nuevas funcionalidades. No se realizan cambios directos en la rama principal (**main**), lo que garantiza que solo se integre código estable.
 
@@ -118,6 +131,29 @@ La estrategia de versionamiento elegida es **GitHub Flow** debido a su simplicid
 - **Errores:** Rama dedicada a la identificación y corrección de errores de funcionamiento o mejoras en los componentes del proyecto.
 - **Máster:** Rama por defecto, donde se fusionan los cambios realizados en las ramas anteriores después de pasar por revisión y pruebas.
 
+## Creación, Revisión y Fusión de Ramas
+1. Creacion 
+Para trabajar de manera eficiente y organizada, se recomienda crear ramas específicas para cada nueva característica o corrección de errores. Utiliza el siguiente comando para crear una nueva rama:
+
+  ```bash
+    git checkout -b nombre-de-la-rama
+  ```
+2. Revision
+   Una vez que se han realizado cambios en una rama, se debe enviar un Pull Request (PR) para iniciar la revisión del código
+   1. Realiza un push de tu rama al repositorio remoto:
+        ```bash
+          git push origin nombre-de-la-rama
+        ```
+   2. Ve a GitHub y selecciona "Pull Requests".
+   3. Haz clic en "New Pull Request"
+   4. Selecciona tu rama y sigue las instrucciones para completar el PR.
+   
+4. Fusión 
+Una vez que el Pull Request ha sido revisado y aprobado, puedes fusionar los cambios en la rama principal (main). Esto se puede hacer directamente en la interfaz de GitHub:
+  1. Haz clic en el botón "Merge Pull Request" en la página del PR.
+  2. Confirma la fusión.
+  
+  
 ## Estrategia de Despliegue
 La estrategia seleccionada es **Despliegue Directo (Big Bang)** debido a que solo se cuenta con un servidor, y aunque conlleva riesgos, es una estrategia que permite realizar la implementación de la nueva versión del sistema de una sola vez. 
 Algunas características clave de esta estrategia:
