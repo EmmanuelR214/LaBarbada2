@@ -1,10 +1,11 @@
-import axios from "axios";
+import axios from "axios"
 
-const instance = axios.create({
-  // baseURL:'api.labarbada.store/api',
-  baseURL:'http://localhost:3000/api',
-  //baseURL:'https://api-barbada.vercel.app/api',
+export const apiUser = axios.create({
+  baseURL: "http://localhost:3000/api",
   withCredentials: true
 })
 
-export default instance
+export const apiSaurce = axios.create({
+  baseURL: "http://localhost:3000/api",
+  withCredentials: true
+})

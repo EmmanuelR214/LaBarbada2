@@ -47,16 +47,16 @@ const Data = () => {
   const sendCode = handleSubmit(async(value)=>{
     setSinginNumber(true)
     try {
-      // const search = await searchPhone(value.tel)
-      // if(search){
-      //   setNumPhone(value.tel)
-      //   console.log(numPhone)
-      //   await findOutNumber(value.tel)
-      //   setSinginNumber(true)
-      // }
-      // else{
-      //   console.log('aaqui npo')
-      // }
+      const search = await searchPhone(value.tel)
+      if(search){
+        setNumPhone(value.tel)
+        console.log(numPhone)
+        await findOutNumber(value.tel)
+        setSinginNumber(true)
+      }
+      else{
+        console.log('aaqui npo')
+      }
     } catch (error) {
       console.log(error)
     }
@@ -64,14 +64,14 @@ const Data = () => {
   
   const confCode = handleSubmit(async(value)=>{
     try {
-      // const codigo = await confirmCode(value.code)
-      // if(codigo){
-      //   console.log('codigo: ', codigo)
-      //   setData(true)
-      // }
-      // else{
-      //   console.log('Codigo no correcto')
-      // }
+      const codigo = await confirmCode(value.code)
+      if(codigo){
+        console.log('codigo: ', codigo)
+        setData(true)
+      }
+      else{
+        console.log('Codigo no correcto')
+      }
     } catch (error) {
       console.log(error)
     }

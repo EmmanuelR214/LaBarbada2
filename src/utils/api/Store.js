@@ -1,16 +1,22 @@
-import axios from "./axios.js";
+import { apiSaurce } from "./axios.js"
 
-export const MenuRoute = () => axios.get('/menu')
+export const MenuRoute = () => apiSaurce.get('/menu')
 
-export const PrecioRoute = precio => axios.post('/precio-platillo', precio)
+export const TraerCarritoRoute = idUser => apiSaurce.get(`/get-shoppingCar/${idUser}`)
 
-export const DetalleXPrecio = precio => axios.post('/detalle-x-precio',precio)
+export const PrecioRoute = precio => apiSaurce.post('/precio-platillo', precio)
 
-export const InsertarCarritoRoute = carrito => axios.post('shoppingcar', carrito)
+export const DetalleXPrecio = precio => apiSaurce.post('/detalle-x-precio',precio)
 
-export const UpdateShoppingCarRoute = car => axios.put('/update-shoppingcar', car)
+export const InsertarCarritoRoute = carrito => apiSaurce.post('shoppingcar', carrito)
 
-export const DeleteCarRoute = id_car => axios.delete(`delete-shoppingcar/${id_car}`)
+export const UpdateShoppingCarRoute = car => apiSaurce.put('/update-shoppingcar', car)
+
+export const DeleteCarRoute = id_car => apiSaurce.delete(`delete-shoppingcar/${id_car}`)
+
+export const CrearVentaRoute = venta => apiSaurce.post('/venta', venta)
+
+export const PagoTarjetaRoute = pago => apiSaurce.post('/pago-tarjeta', pago)
 
 
 

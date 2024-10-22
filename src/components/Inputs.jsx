@@ -8,6 +8,7 @@ export const InputDesign = ({
   max, 
   min,
   icon,
+  w = "w-full",
   
   method,
   err,
@@ -25,7 +26,7 @@ export const InputDesign = ({
     }
   }
   return (
-      <div className="relative w-full ">
+      <div className={`relative ${w}`} >
         <div className="relative">
           <motion.label
             className={`absolute left-3 ${
@@ -468,6 +469,67 @@ export const InputEmail = ({
   )
 }
 
+export const InputMoney = ({ w = "w-full", value, onChange }) => {
+  // Estado local para el valor del input
+  const [inputValue, setInputValue] = useState(value || '');
+
+  // Manejador de cambios en el input
+  const handleInputChange = (event) => {
+    // Obtener el nuevo valor del input
+    let newValue = event.target.value;
+
+    // Remover todos los caracteres que no son números ni puntos decimales
+    newValue = newValue.replace(/[^0-9.]/g, '');
+
+    // Aplicar el formato de separación de miles
+    newValue = newValue.replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ",");
+
+    // Limitar los decimales a dos lugares
+    const parts = newValue.split('.');
+    if (parts.length > 1) {
+      newValue = `${parts[0]}.${parts[1].slice(0, 2)}`;
+    }
+
+    // Limitar la cantidad a 99,000.00
+    const amount = parseFloat(newValue.replace(/,/g, ''));
+    if (!isNaN(amount) && amount > 99000) {
+      newValue = '99,000.00';
+    }
+
+    // Actualizar el estado local
+    setInputValue(newValue);
+
+    // Proporcionar el nuevo valor al componente padre
+    onChange(newValue);
+  };
+
+  // Manejador de teclas presionadas
+  const handleKeyDown = (event) => {
+    const { key } = event;
+    // Permitir solo dígitos numéricos y el punto decimal
+    if ((key >= '0' && key <= '9') || key === '.') {
+      return true;
+    } else {
+      event.preventDefault();
+      return false;
+    }
+  };
+
+  return (
+    <div>
+      <input 
+        type="text" 
+        className={`px-3 ${w} py-2 border rounded-md focus:outline-none text-gray-800`}
+        placeholder="$0.00"
+        value={inputValue} // Establecer el valor del input
+        onChange={handleInputChange} 
+        onKeyDown={handleKeyDown} 
+      />
+    </div>
+  );
+};
+
+
 //TODO: INPUTS ESPECIALES
 
 
@@ -539,6 +601,74 @@ export const CustomSelect = ({ options, placeholder, onChange, value }) => {
     </div>
   );
 }
+
+export const CustomSelect2 = ({ options, placeholder, onChange, value, w = 'w-full', opt = false, text, click, icon = false, styles, desc = false}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
+
+  return (
+    <div className="relative">
+      <div
+        className={`appearance-none rounded px-3 py-4 ${w} text-white leading-tight focus:outline-none pr-10 bg-zinc-800`}
+        onClick={toggleDropdown}
+      >
+        <div className="flex justify-between items-center">
+          <span>{value ? value.label : placeholder}</span>
+          <Icon
+            icon="material-symbols:expand-more"
+            className={`text-3xl text-white absolute right-1 flex items-center ${isOpen ? "rotate-180" : ""}`}
+          />
+        </div>
+      </div>
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+            className="absolute w-full bg-zinc-800 shadow-md mt-1 rounded  text-white z-10"
+          >
+            <ul>
+              {options.map((option, index) => (
+                <li key={index} className="px-3 py-2 rounded hover:bg-gray-600">
+                  {desc ? (
+                    <div className={`w-full text-left ${styles}`}>
+                      {option.label}
+                      <p>{option.cantidad}</p>
+                      {icon && <Icon icon={option.icono} />}
+                    </div>
+                  ) : (
+                    <button
+                      className={`w-full text-left focus:outline-none ${styles}`}
+                      onClick={(e) => {
+                        e.preventDefault()
+                        onChange(option);
+                        toggleDropdown();
+                      }}
+                    >
+                      {option.label}
+                      {icon && <Icon icon={option.icono} />}
+                    </button>
+                  )}
+                </li>
+              ))}
+              {opt && (
+                <button className="w-full flex items-center justify-between p-3 hover:bg-gray-600 relative" onClick={click}>
+                  {text}
+                  <Icon icon='arcticons:mapsgeobookmarks' />
+                </button>
+              )}
+            </ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
 
 export const CustomSelectPlus = ({ options, placeholder, onChange, value }) => {
   const [isOpen, setIsOpen] = useState(false);

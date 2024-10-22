@@ -153,6 +153,10 @@ const DescripcionPlatillo = () => {
   const presentaciones = data[0].presentaciones.split(',')
   const guarniciones = data[1].filter(item => item.tipo === 'guarnicion')
   const acompañamientos = data[1].filter(item => item.tipo === 'acompañamiento')
+  console.log(tamaños)
+  console.log(presentaciones)
+  console.log(guarniciones)
+  console.log(acompañamientos)
   return (
     <main className="flex flex-col md:flex-row h-screen w-full" >
       <section className="w-full md:w-1/2 order-2 md:order-1 flex items-center justify-center" >
@@ -249,6 +253,110 @@ const DescripcionPlatillo = () => {
 
 export default DescripcionPlatillo;
 
+
+/*
+    <main className="flex flex-col min-h-screen">
+      <div className="flex flex-col md:flex-row flex-grow">
+        <section className="w-full md:w-1/2 order-1 md:order-1 flex items-center justify-center">
+          <div className="bg-zinc-800 p-8 items-center flex rounded-xl h-full relative overflow-hidden">
+            <img
+              src={`https://labarbada.store/imagenes/${data[0].imagen_platillo}`}
+              className="rounded-xl w-full h-full object-cover"
+              alt="Producto"
+            />
+          </div>
+        </section>
+        <section className="w-full md:w-1/2 order-2 md:order-2 flex flex-col justify-center items-start px-8 md:px-16 lg:px-24">
+          <h1 className="text-5xl mt-20 mb-6 font-bold text-white">Detalle del producto</h1>
+          <div className="mb-4 flex items-baseline space-x-2">
+            <div className="text-2xl font-bold text-white">{data[0].nombre_platillo} -</div>
+            <div className="text-2xl text-red-600 font-bold">${precioTotal}</div>
+          </div>
+          <h1 className="text-white mb-2">Descripción</h1>
+          <div className="w-full h-0.5 bg-white mb-4"></div>
+          <div className="bg-zinc-800 rounded-xl w-full mb-6">
+            <p className="p-4 text-white">{data[0].descripcion_platillo}</p>
+          </div>
+          <div className="flex w-full mb-6">
+            <div className="w-1/2 pr-2">
+              <h1 className="my-2 text-white">Tamaño</h1>
+              <CustomSelect
+                options={tamaños.map(tamaño => ({ value: tamaño, label: tamaño }))}
+                placeholder={opcionTam ? opcionTam.label : "Tamaño"}
+                onChange={handleTamChange}
+                value={opcionTam}
+              />
+            </div>
+            <div className="w-1/2 pl-2">
+              <h1 className="my-2 text-white">Tipo</h1>
+              <CustomSelect
+                options={presentaciones.map(presentacion => ({ value: presentacion, label: presentacion }))}
+                placeholder={opcionPresent ? opcionPresent.label : "Presentación"}
+                onChange={handlePresentacionChange}
+                value={opcionPresent}
+              />
+            </div>
+          </div>
+          <div className="w-full mb-6">
+            <h1 className="font-medium text-white mb-2">Acompáñalo con</h1>
+            <CustomSelectPlus
+              options={acompañamientos.map(item => ({
+                value: item.id_platillo_recomendado,
+                label: item.platillo_recomendado,
+                precio: item.precio_platillo_recomendado,
+                extraText: `Precio: ${item.precio_platillo_recomendado}, Tamaño: ${item.tamaño_platillo_recomendado}`
+              }))}
+              placeholder="Selecciona un acompañamiento"
+              onChange={handleChangeAcomp}
+              value={selectAcomp}
+            />
+          </div>
+          <div className="w-full mb-6">
+            <h1 className="font-medium text-white mb-2">Guarniciones</h1>
+            <CustomSelectPlus
+              options={guarniciones.map(item => ({
+                value: item.id_platillo_recomendado,
+                label: item.platillo_recomendado,
+                precio: item.precio_platillo_recomendado,
+                extraText: `Precio: ${item.precio_platillo_recomendado}, Tamaño: ${item.tamaño_platillo_recomendado}`
+              }))}
+              placeholder="Selecciona una guarnición"
+              onChange={handleChangeExtra}
+              value={selectedOptionExtra}
+            />
+          </div>
+          <div className="my-2 flex items-center space-x-4">
+            <h1 className="text-white">Cantidad</h1>
+            <ButtonCount count={count} setCount={handleCountChange} />
+          </div>
+          <div className="flex w-full mt-6">
+            <div className="w-1/2 pr-2">
+              <ButtonBasic
+                icon="mdi:bell"
+                color="bg-red-600"
+                width='w-2/3'
+                hovColor="hover:bg-red-700"
+                textHover=""
+                text="Ordenar ahora"
+                click={handleVenta}
+              />
+            </div>
+            <div className="w-1/2 pl-2">
+              <ButtonBasic
+                icon="ic:round-shopping-cart"
+                color="bg-yellow-400"
+                hovColor="hover:bg-yellow-500"
+                textHover=""
+                width='w-2/3'
+                text="Agregar carrito"
+                click={handleCarrito}
+              />
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+*/
 
 /*
 

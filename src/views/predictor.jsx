@@ -15,6 +15,9 @@ function Predictor() {
   const pronosticoPlatillo = (e) => {
     let c, k, p
     e.preventDefault()
+    console.log(data.ventaTiempo1, data.primeraVenta)
+    console.log(data.ventaTiempo2, data.segundaVenta)
+    console.log(data.tiempoDiferencial)
     
     c = Math.exp(data.ventaTiempo1) * data.primeraVenta
     k = Math.log(data.ventaTiempo2 / ((c < 0 || c>0) ? c : 1)) / data.segundaVenta

@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 //Api
-import { DeleteCarRoute, DetalleXPrecio, InsertarCarritoRoute, MenuRoute, PrecioRoute, UpdateShoppingCarRoute } from "../../utils/api/Store";
+import { DeleteCarRoute, DetalleXPrecio, InsertarCarritoRoute, MenuRoute, PagoTarjetaRoute, PrecioRoute, UpdateShoppingCarRoute } from "../../utils/api/Store";
 
 export const StoreContext = createContext()
 
@@ -13,12 +13,66 @@ export const useStore = () =>{
 }
 
 export const StoreProvider = ({children}) =>{
-  
-  
   const [listMenu, setListMenu] = useState([])
   const [category, setCategory] = useState([])
   const [succesStore, setSuccesStore] = useState([])
   const [errorStore, setErrorStore] = useState([])
+  
+
+    const Pago = async (cardDetails, total, nombre, apellido, email) => {
+      try {
+        console.log(cardDetails, total, nombre, apellido, email);
+        
+        OpenPay.setId('m7huax2zxfkmokoy7mog');
+        OpenPay.setApiKey('pk_c4fecd15f4464b989f4f9fa37c581e1c');
+        OpenPay.setSandboxMode(true)
+        
+        const createToken = () => {
+          return new Promise((resolve, reject) => {
+            OpenPay.token.create(cardDetails, resolve, reject);
+          });
+        };
+        
+        const response = await createToken();
+        console.log("OpenPay token response:", response);
+        
+        if (!response || !response.data) {
+          throw new Error('Invalid token response from OpenPay');
+        }
+        
+        const token_id = response.data.id;
+        const device_session_id = OpenPay.deviceData.setup();
+        
+        const data = {
+          token_id,
+          device_session_id,
+          amount: total,
+          description: "Prueba de pago",
+          name: nombre,
+          last_name: apellido,
+          email: email
+        };
+        
+        const r = await PagoTarjetaRoute(data);
+        return r.data
+      } catch (error) {
+        console.error('Error during payment:', error);
+        if (error.response && error.response.data) {
+          if (Array.isArray(error.response.data)) {
+            setErrorStore(error.response.data);
+          } else {
+            setErrorStore(error.response.data);
+          }
+        } else {
+          setErrorStore([{ description: error.message }]);
+        }
+      }
+    }  
+  
+  
+  
+  
+  
   
   const ObtenerPrecio = async(id, tam, pres) =>{
     try {
@@ -123,7 +177,8 @@ export const StoreProvider = ({children}) =>{
       Detalle_x_Precio,
       InsertarCarrito,
       UpdateCar,
-      DeleteShoppingCar
+      DeleteShoppingCar,
+      Pago
     }} >
       {children}
     </StoreContext.Provider>

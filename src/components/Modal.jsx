@@ -1,20 +1,10 @@
-import React,{useState} from 'react'
+import React,{useState, useEffect, useRef } from 'react'
 import { motion } from "framer-motion";
 
-import 'ol/ol.css';
-import Map from 'ol/Map';
-import View from 'ol/View';
-import TileLayer from 'ol/layer/Tile';
-import OSM from 'ol/source/OSM';
-import Feature from 'ol/Feature';
-import Point from 'ol/geom/Point';
-import { fromLonLat } from 'ol/proj';
-import { Vector as VectorLayer } from 'ol/layer';
-import { Vector as VectorSource } from 'ol/source';
-import { Style, Circle } from 'ol/style';
-import { Control } from 'ol/control';
-import { defaults as defaultControls } from 'ol/control';
 import { ButtonBasic } from './Buttons';
+import { InputDesign } from './Inputs';
+
+import '../styles/tarjeta.css'
 
 export const ModalVentas = ({ children, onClose }) => {
   const backdropVariants = {
@@ -48,43 +38,17 @@ export const ModalVentas = ({ children, onClose }) => {
   )
 }
 
-export const MyMap = ({ onSelectLocation }) => {
-  const [map, setMap] = useState(null);
 
-  // Function to handle map click
-  const handleMapClick = (event) => {
-    const coordinate = event.coordinate;
-    const lonLat = fromLonLat(coordinate);
-    onSelectLocation(lonLat);
-  };
-
-  // Initialize map on first render
-  React.useEffect(() => {
-    const map = new Map({
-      target: 'map',
-      layers: [
-        new TileLayer({
-          source: new OSM(),
-        }),
-      ],
-      view: new View({
-        center: fromLonLat([0, 0]),
-        zoom: 2,
-      }),
-      controls: defaultControls({ attribution: false }),
-    });
-
-    // Add click event listener to the map
-    map.on('click', handleMapClick);
-
-    setMap(map);
-
-    // Cleanup on component unmount
-    return () => {
-      map.dispose();
-    };
-  }, []);
-
-  // Render map container
-  return <div id="map" style={{ width: '100%', height: '400px' }}></div>;
-}
+export const Modal = ({ title, children, click1 }) => {
+  return (
+    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50 bg-opacity-50 bg-black backdrop-filter backdrop-blur-lg">
+      <div className="modal bg-gray-800 w-3/5 h-[64%] rounded-lg flex flex-col">
+        <div className=" bg-gray-600 rounded-t-lg p-3 text-center mb-2 flex justify-between items-center">
+          <h1 className="text-white font-semibold text-2xl">{title}</h1>
+          <ButtonBasic width='w-[2%]' height='h-[80%]' text='x' color='bg-transparent' hovColor='hover:bg-red-500' click={click1} />
+        </div>
+        <div className="p-4 rounded-md flex-grow">{children}</div>
+      </div>
+    </div>
+  );
+};

@@ -103,7 +103,7 @@ const Carrito = () => {
         <h3 className=" text-4xl font-semibold" >${sumaSubtotales}</h3>
         <ButtonBasic width='w-[15%]' text='Confirmar' textHover="" hovColor="hover:bg-[#098BD1]" click={()=>{
           if(data[0].length > 0 ){
-            setIsOpenModal(true)
+            navigate('/payment')
           }else{
             toast.error('No hay nada en el carrito')
           }

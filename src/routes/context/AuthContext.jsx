@@ -2,10 +2,11 @@ import { createContext, useContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 //Api
-import {verifTokenRequet, searchNumberPhoneRoute, registerRoute, loginRoute, loginFacegooRoute, sendCodeRoute, recoverPassRoute, alertRoute} from "../../utils/api/Auth";
+import {verifTokenRequet, searchNumberPhoneRoute, registerRoute, loginRoute, loginFacegooRoute, sendCodeRoute, recoverPassRoute, alertRoute, DireccionRoute, InsertarDireccionRoute} from "../../utils/api/Auth";
 //Firebase
 import { GoogleAuthProvider, FacebookAuthProvider, signInWithPhoneNumber, signOut, signInWithPopup, RecaptchaVerifier, reauthenticateWithCredential } from "firebase/auth";
 import { auth } from "../../utils/firebase/firebase";
+import { CrearVentaRoute, TraerCarritoRoute } from "../../utils/api/Store";
 
 
 export const AuthContext = createContext()
@@ -22,6 +23,7 @@ export const AuthProvider = ({children}) =>{
   const [errorAuth, setErrorAuth] = useState([])
   const [loading, setLoading] = useState(true)
   const [successAuth, setSuccessAuth] = useState([])
+  const [cordenadas, setCordenadas] = useState(null)
   
   //Numero de telefono
   const [codeConfirmation, setCodeConfirmation] = useState(null)
@@ -227,6 +229,72 @@ export const AuthProvider = ({children}) =>{
     }
   }
   
+  const TraerDireccon = async() =>{
+    try {
+      let idUser = user.id
+      const pp = await DireccionRoute(idUser)
+      return pp.data
+    } catch (error) {
+      if(Array.isArray(error.response.data)) setErrorAuth(error.response.data)
+      setErrorAuth(error.response.data)
+    }
+  }
+  
+  const InsertarDirreccion = async(direccion, descripcion, idUser, idIcono) =>{
+    try {
+      let datos = {
+        direccion: direccion, 
+        descripcion: descripcion, 
+        id_usuario: idUser, 
+        id_apodo: idIcono
+      }
+      console.log(datos)
+      let jeje = await InsertarDireccionRoute(datos)
+      setSuccessAuth(jeje.data)
+      return jeje
+      
+    } catch (error) {
+      if(Array.isArray(error.response.data)) setErrorAuth(error.response.data)
+      setErrorAuth(error.response.data)
+    }
+  }
+  
+  const TraerCarrito = async(req, res) =>{
+    try {
+      let idUser = user.id
+      const kk = await TraerCarritoRoute(idUser)
+      return kk.data
+    } catch (error) {
+      if(Array.isArray(error.response.data)) setErrorAuth(error.response.data)  
+      setErrorAuth(error.response.data)
+    }
+  }
+  
+  const crearVenta = async(idUser, total, idDir, idMetodoP, montoP, cambioD, CarritoDB) =>{
+    try {
+      let datos ={
+        id_usuario: idUser, 
+        sumaSubtotales: total, 
+        id_direccion: idDir, 
+        metodoPago: idMetodoP, 
+        precio: montoP, 
+        cambio: cambioD, 
+        carrito: CarritoDB
+      }
+      console.log(datos)
+      let popo =await CrearVentaRoute(datos)
+      return popo.data
+    } catch (error) {
+      if(Array.isArray(error.response.data)) setErrorAuth(error.response.data)
+      setErrorAuth(error.response.data)
+    }
+  }
+  
+  
+  
+  
+  
+  
   const logout = async () =>{
     try {
       Cookies.remove('token')
@@ -298,6 +366,13 @@ export const AuthProvider = ({children}) =>{
       sendCodeEmail,
       recoverPassword,
       alertUser,
+      TraerDireccon,
+      InsertarDirreccion,
+      setCordenadas,
+      TraerCarrito,
+      crearVenta,
+      setErrorAuth,
+      cordenadas,
       loading,
       user,
       isAuthenticade,

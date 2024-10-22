@@ -10,7 +10,7 @@ export const Logo = ({route}) =>{
   const ro = route || '/'
   return(
     <>
-      <Link to={ro}>
+      <Link to={ro} className="cursor-pointer" >
         <img src="/img/logo.png" alt="Barbada Logo" className="w-8" />
       </Link>
     </>
@@ -43,7 +43,7 @@ export const Nav = () => {
     ? [
         { to: "/home", text: "Inicio" },
         { to: "/menu", text: "Menú" },
-        { to: "/reservations", text: "Reservaciones" },
+        // { to: "/reservations", text: "Reservaciones" },
         {
           to: "/shoppingcar",
           text: "",
@@ -68,7 +68,7 @@ export const Nav = () => {
     : [
         { to: "/home", text: "Inicio" },
         { to: "/menu", text: "Menú" },
-        { to: "/reservations", text: "Reservaciones" },
+        // { to: "/reservations", text: "Reservaciones" },
         { to: "/weare", text: "Nosotros" },
         { to: "/login", text: "Iniciar sesión" },
       ];
@@ -151,9 +151,7 @@ export const NavR = ({click}) =>{
         <Icon icon='openmoji:return'/>
         <button onClick={click} >volver</button>
       </div>
-      <div className=" md:w-[53%] flex items-center">
         <Logo  />
-      </div>
     </nav>
   )
 }

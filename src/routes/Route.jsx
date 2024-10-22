@@ -25,7 +25,7 @@ import Menu from "../views//Menu";
 import DescripcionPlatillo from "../views/DescripcionPlatillo";
 
 import {ProtectedRoute} from "./ProtectedRoute";
-import Finalizepurchase from "../views/Finalizepurchase";
+import Finalizepurchase from "../views/payment";
 
 
 export const route = createBrowserRouter([
@@ -108,7 +108,7 @@ export const route = createBrowserRouter([
             element: <Carrito/>
           },
           {
-            path: '/finally-shopping',
+            path: '/payment',
             element: <Finalizepurchase/>
           }
         ]
