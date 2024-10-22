@@ -43,14 +43,18 @@ jobs:
       - name: Checkout Código
         uses: actions/checkout@v4.2.1
 
+      - name: Instalar Dependencias
+        run: npm install
+
       - name: Compilar Proyecto
-        run: npm vite build
+        run: npm run build
 
       - name: Subir Artefacto
         uses: actions/upload-artifact@v3
         with:
           name: build-artifact
-          path: ../dist
+          path: ./dist
+
 
   test:
     runs-on: ubuntu-latest
