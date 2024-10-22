@@ -44,7 +44,7 @@ jobs:
         uses: actions/checkout@v4.2.1
 
       - name: Compilar Proyecto
-        run: npm run build
+        run: npm vite build
 
       - name: Subir Artefacto
         uses: actions/upload-artifact@v3
