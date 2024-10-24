@@ -22,7 +22,7 @@ const NotificationHandler = () => {
     try {
       const storedToken = localStorage.getItem('fcmToken');
       if (!storedToken) {
-        const token = await getToken(messaging, { vapidKey: 'BLEDHXDjobuubBnKkVNExff0x30BWcenJrbU45_H9vbiBIWIUTBBWAy-RldvglyGwUKT_5gON5J0NyJvPsocJzU' });
+        const token = await getToken(messaging, { vapidKey: process.env.TOKENFIREBASE });
         if (token) {
           localStorage.setItem('fcmToken', token); 
           await SubscribeRoute({token: token}); 
@@ -38,19 +38,31 @@ const NotificationHandler = () => {
   }  
   
   useEffect(() => {
-    activarMensajes();
-    onMessage(messaging, message => {
-      console.log('Mensaje recibido en primer plano:', message);
+    try {
+      activarMensajes();
+      onMessage(messaging, message => {
+        console.log('Mensaje recibido en primer plano:', message);
+        toast(
+          <div className="flex flex-col gap-1">
+            <strong className="text-lg font-semibold text-gray-800">{message.notification.title}</strong>
+            <span className="text-sm text-gray-600">{message.notification.body}</span>
+          </div>,
+          {
+            icon: "🔔", 
+          }
+        );     
+      });
+    } catch (error) {
       toast(
         <div className="flex flex-col gap-1">
-          <strong className="text-lg font-semibold text-gray-800">{message.notification.title}</strong>
-          <span className="text-sm text-gray-600">{message.notification.body}</span>
+          <strong className="text-lg font-semibold text-gray-800">Nuevo platillo en oferta</strong>
+          <span className="text-sm text-gray-600">Entra al menú y descubre un mundo nuevo de sabores</span>
         </div>,
         {
           icon: "🔔", 
         }
-      );     
-    });
+      ); 
+    }
   }, []);
   
   return null
