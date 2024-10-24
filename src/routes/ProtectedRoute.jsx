@@ -1,13 +1,17 @@
 import { Navigate, Outlet } from "react-router-dom"
 import { useAuth } from "./context/AuthContext"
-
-
-export const ProtectedRoute = () => {
+import Loader from "../components/Loader"
+import Cookies from "js-cookie"
+const ProtectedRoute = () => {
+  const {loading, isAuthenticade} = useAuth()
   
-  const {loading, isAuthenticade, user} = useAuth()
   
-  if(loading) return <h1>Loading...</h1>
-  if(!loading && !isAuthenticade) return <Navigate to="/login" replace />
+  if(loading) return <Loader/>
+  if(!loading && !isAuthenticade) { Cookies.remove('token'); return <Navigate to="/login" replace />} 
   
-  return <Outlet/>
+  return (
+    <Outlet/>
+  )
 }
+
+export default ProtectedRoute

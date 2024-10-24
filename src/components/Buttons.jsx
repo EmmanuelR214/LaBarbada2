@@ -4,6 +4,41 @@ import { motion } from "framer-motion";
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 
+export const ButtonRedSocial = ({
+  text,
+  click,
+  height = "h-10",
+  disabled,
+  width = "w-full",
+  color = "bg-[#0796E3]",
+  textColor = "text-white",
+  border,
+  borderColor,
+  icon,
+  position = 'justify-center',
+  hovColor = "hover:bg-[#0d7597]",
+  textHover = "hover:text-black",
+}) => {
+  const disabledStyles = disabled ? "opacity-50 cursor-not-allowed bg-gray-400 hover:bg-gray-400 hover:text-white" : ""
+
+  return (
+    <motion.button
+      className={`${width} ${height} ${color} ${textColor} ${border} ${borderColor} ${disabledStyles} flex items-center ${position} font-bold rounded mb-2 ${hovColor} ${textHover}`}
+      onClick={click}
+      disabled={disabled}
+      whileHover={{ scale: 1.1 }}
+      transition={{ type: "spring", stiffness: 400, damping: 10 }}
+    >
+      {icon && (
+        <span className={`flex items-center justify-center ${text ? "mr-2" : ""}`}>
+          <Icon icon={icon} width="1em" height="1em" />
+        </span>
+      )}
+      <span className="hidden sm:inline">{text}</span>
+    </motion.button>
+  )
+}
+
 export const ButtonBasic = ({
   text,
   click,
@@ -29,9 +64,9 @@ export const ButtonBasic = ({
       className={`${btnWidth} ${btnHeight} ${color} ${textColor} ${border} ${borderColor} ${disabledStyles} flex items-center ${position} font-bold rounded mb-2 ${hovColor} ${textHover}`}
       onClick={click}
       disabled={disabled}
-      whileHover={{ scale: 1.1 }}
-      transition={{ type: "spring", stiffness: 400, damping: 10 }}
-    >
+      whileHover={!disabled ? { scale: 1.1 } : {}}
+      transition={!disabled ? { type: "spring", stiffness: 400, damping: 10 } : {}}
+      >
       {icon && (
         <span className={`mr-2 sm:${text ? "inline" : "hidden"}`}>
           <Icon icon={icon} width="1em" height="1em" />
@@ -80,11 +115,27 @@ export const CheckButtton = ({ register, onCheckboxChange  }) => {
   );
 }
 
-export const MenuButton = () => {
+export const ButtonDetalle = ({ text, onClick, isSelected  }) => {
+  return (
+    <button
+    className={`py-2 px-4 rounded focus:outline-none transition duration-150 font-semibold ${
+      isSelected
+        ? 'bg-gray-700 text-white'
+        : 'bg-[#27272a] text-white hover:bg-gray-600'
+    }`}
+      onClick={onClick}
+    >
+      {text}
+    </button>
+  );
+};
+
+export const MenuButton = ({fun}) => {
   const [click, setClick] = useState(false)
   
   const handleClick = () =>{
     setClick(!click)
+    fun()
   }
   
   return (

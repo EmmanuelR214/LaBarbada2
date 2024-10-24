@@ -1,24 +1,16 @@
-import {useNavigate } from "react-router-dom"
-
-//Dependencias 
-import { toast } from "react-toastify"
-import 'react-toastify/dist/ReactToastify.css'
-
-//Comtext
 import { useAuth } from "../../routes/context/AuthContext"
-
-//Components
+import { useNavigate } from "react-router-dom"
+import { toast } from "react-toastify"
 import { ButtonBasic } from "../../components/Buttons"
 import { TextLink } from "../../components/Text"
 
-export const Register = () => {
+function Register() {
   const {loginGoogle, loginFacebook} = useAuth()
   const navigate = useNavigate()
   
   const handleGoogle = async() =>{
     try {
       const credentialsGoogle = await loginGoogle()
-      console.log(credentialsGoogle)
     } catch (error) {
       if (error.code === 'auth/popup-closed-by-user') {
         toast.warning('Se canceló la operación.');
@@ -45,11 +37,9 @@ export const Register = () => {
   const handleApple = () =>{
     console.log('Login apple')
   }
-  
   const handleLink = () =>{
     navigate('/register-data')
   }
-  
   return (
     <section className="flex flex-col items-center justify-center md:flex-row h-screen">
     <div className="w-full md:w-1/2 p-8 flex flex-col space-y-2 md:space-y-4 justify-center items-center order-2 md:order-1">
@@ -66,8 +56,10 @@ export const Register = () => {
       <TextLink to="/login" text="¿Ya tienes cuenta? " linkText="Iniciar sesión" />
     </div>
     <div className="h-[40vh] md:h-screen md:w-3/4 order-1 md:order-2">
-      <img src="/img/Login.jpg" alt="" className="w-full h-full object-cover" />
+      <img src="/img/fondo1.webp" alt="" className="w-full h-full object-cover" />
     </div>
   </section>
   )
 }
+
+export default Register

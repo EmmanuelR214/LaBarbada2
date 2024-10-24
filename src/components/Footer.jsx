@@ -1,57 +1,44 @@
-import React from 'react'
-import { ButtonLink } from './Buttons'
-import {useNavigate} from 'react-router-dom'
+import { Link } from "react-router-dom";
+import { TextLink } from "./Text";
 
-const Footer = () => {
-  const navigate = useNavigate()
+
+function Footer() {
   return (
-    <div className='footer-distributed'>
-      <div className='footer-left' >
-        <p>
-        <ButtonLink
-              text="Terminos y condiciones"
-              onClick={()=>{navigate('/TerminosCondiciones')}}
-              color=""
-              hoverColor=""
-        /> 
-        </p>
-        <p>
-        <ButtonLink
-              text="Politicas de cookies"
-              onClick={()=>{navigate('/TerminosCookies')}}
-              color=""
-              hoverColor=""
-        />
-        </p>
-        <br />
-        <br />
-        <p className="footer-company-name">Copyright © 2023 <strong>La Barbada</strong> Derechos reservados</p>
-      </div>
-      <div className='footer-center'>
-        <div>
-          <i className="fa fa-phone"></i>
-          <p>77-12-14-48-70</p>
-        </div>
-          <i className="fa fa-envelope"></i>
-          <p><a href="">labarbada@gmail.com</a></p>
-      </div>
-      <div className='footer-right'>
-        <p className='footer-company-about' >
-          <span>Nosotros</span>
-          <strong></strong>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt quas accusantium perferendis quis, ex ipsa soluta, mollitia totam dicta, quisquam autem. Deleniti, ullam eius quisquam amet eligendi culpa voluptatem perspiciatis.
-          <br />
-          <br />
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatibus fuga laboriosam incidunt saepe perferendis reprehenderit nisi quasi, eligendi facere veniam corporis pariatur eveniet ullam? Quam amet aliquam vero autem necessitatibus..
-        </p>
-        <div className='footer-icons' >
-            <a href="#"><i className="fab fa-facebook"></i></a>
-            <a href="#"><i className="fab fa-instagram"></i></a>
-            <a href="#"><i className="fab fa-linkedin"></i></a>
-            <a href="#"><i className="fab fa-twitter"></i></a>
-            <a href="#"><i className="fab fa-youtube"></i></a>
-        </div>
-      </div>
+<footer className="pie-pagina mt-auto">
+  <div className="grupo-1">
+    <div className="box">
+      <figure>
+        <a href="#">
+          <img src="/logo.svg" alt="Logo de la barbada" />
+        </a>
+      </figure>
     </div>
+    <div className="box">
+      <h2>CONTACTO</h2>
+      <p>Dirección:</p>
+      <p>Carretera México-Pachuca km 13 S/N, Col. El Mirador Huejutla de Reyes, México CP 43000</p>
+      <p>Teléfono: 771 245 1795</p> 
+      <p>Correo: labarbada@hotmail.com</p>
+    </div>
+    <div className="box">
+      <h2>SÍGUENOS</h2>
+      <div className="red-social">
+        <a href="https://www.facebook.com/labarbada" className="fa fa-facebook"></a>
+        <a href="https://www.instagram.com/labarbadahuejutla/" className="fa fa-instagram"></a>
+        <a href="https://api.whatsapp.com/send?phone=7712451795" className="fa fa-whatsapp"></a>
+      </div>
+      <h3>Horarios de atención</h3>
+      <p>Todos los días de 10am a 10pm</p>
+      <TextLink to='/terminos-condiciones' linkText='Terminos y condiciones' textColor="" hoverColor="hover:text-red-500" />
+      <TextLink to='/politicas-de-privacidad' linkText='Aviso de privacidad' textColor="" hoverColor="hover:text-red-500" />
+      <TextLink to='/terminos-Cookies' linkText='Términos de Cookies' textColor="" hoverColor="hover:text-red-500" />
+    </div>
+  </div>
+  <div className="grupo-2">
+    <small>&copy; 2024 <b>La Barbada</b> - Todos los Derechos Reservados.</small>
+  </div>
+</footer>
+
   )
 }
 

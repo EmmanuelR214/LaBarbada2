@@ -1,9 +1,8 @@
 import { Icon } from "@iconify/react"
-
-const Nosotros = () => {
+function Nosotros() {
   return (
-    <main>
-        <h1 className="text-white text-5xl font-semibold mt-20 mb-8 text-center" >Nosotros</h1>
+    <main className="pt-24">
+      <h1 className="text-white text-5xl font-semibold  mb-2 text-center">Nosotros</h1>
       <section className="flex flex-col items-center justify-center bg-[#020303] md:flex-row md:h-auto">
         <div className="w-full md:w-1/2 p-8 flex flex-col items-center order-1 md:order-2">
           <div className="w-full md:w-11/12 p-8 flex flex-col justify-center order-1 md:order-1">

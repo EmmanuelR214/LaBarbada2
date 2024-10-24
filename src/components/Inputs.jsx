@@ -9,7 +9,6 @@ export const InputDesign = ({
   min,
   icon,
   w = "w-full",
-  
   method,
   err,
   look,
@@ -252,41 +251,38 @@ export const InputPhone = ({
   name,
   max, 
   min,
-  
   method,
   err,
   look,
   triger,
   val,
 }) =>{ 
-  const [isFocused, setIsFocused] = useState(false)
-  const icon = 'ph:phone-fill'
-  const [errorMess, setErrorMess] = useState([])
-  const pattern = /^[0-9]+$/
-  
+  const [isFocused, setIsFocused] = useState(false);
+  const icon = 'ph:phone-fill';
+  const [errorMess, setErrorMess] = useState([]);
+  const pattern = /^[0-9]+$/;
+
   const handleChange = (e) =>{
-    const newErrorMess = []
-    const input = e.target.value
-    if(name === 'tel'){
-      const valTel = input.replace(/[^0-9]/g, '').slice(0,10)
-      if(input.length < 10) newErrorMess.push('El teléfonoo debe ser igual a 10 caracteres')
-      val(name, valTel)
-      setErrorMess(newErrorMess)
-    }
-    triger(name)
+    const input = e.target.value.replace(/[^0-9]/g, '').slice(0,10);
+    val(name, input);
+    const newErrorMess = [];
+    if(input.length < 10) newErrorMess.push('El teléfono debe ser igual a 10 caracteres');
+    setErrorMess(newErrorMess);
+    triger(name);
   }
-  
+
   const handleFocus = () => {
-    setIsFocused(true)
+    setIsFocused(true);
   }
-  
+
   const handleBlur = (e) => {
     if (!e.target.value) {
-      setIsFocused(false)
+      setIsFocused(false);
     }
   }
+
   return (
-      <div className="relative w-full ">
+      <div className="relative w-full">
         <div className="relative">
           <motion.label
             className={`absolute left-3 ${
@@ -302,17 +298,20 @@ export const InputPhone = ({
             type="tel"
             {...method(name, {
               required: `${title} es requerido`,
-              pattern: pattern,
+              pattern: {
+                value: pattern,
+                message: 'Ingrese un teléfono válido'
+              },
               minLength: {
                 value: min,
-                message: `${title} debe ser mayor a ${min} carácteres`,
+                message: `${title} debe ser mayor a ${min} caracteres`,
               },
               maxLength: {
                 value: max,
-                message: `${title} debe de ser menor a ${max} carácteres`,
+                message: `${title} debe ser menor a ${max} caracteres`,
               },
             })}
-            className="text-black rounded-lg p-3 pr-3 px-3 w-full focus:outline-none "
+            className="text-black rounded-lg p-3 pr-3 px-3 w-full focus:outline-none"
             onFocus={handleFocus}
             onBlur={handleBlur}
             onChange={handleChange}
@@ -331,6 +330,7 @@ export const InputPhone = ({
       </div>
   )
 }
+
 
 export const VerificationInput = ({
   title,
@@ -407,26 +407,26 @@ export const InputEmail = ({
   name,
   max, 
   min,
-  
   method,
   err,
   look,
 }) =>{ 
-  const [isFocused, setIsFocused] = useState(false)
-  const icon = 'material-symbols:mail-outline'
-  const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  
+  const [isFocused, setIsFocused] = useState(false);
+  const icon = 'material-symbols:mail-outline';
+  const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
   const handleFocus = () => {
-    setIsFocused(true)
+    setIsFocused(true);
   }
-  
+
   const handleBlur = (e) => {
     if (!e.target.value) {
-      setIsFocused(false)
+      setIsFocused(false);
     }
   }
+
   return (
-      <div className="relative w-full ">
+      <div className="relative w-full">
         <div className="relative">
           <motion.label
             className={`absolute left-3 ${
@@ -443,22 +443,21 @@ export const InputEmail = ({
             {...method(name, {
               required: `${title} es requerido`,
               pattern: {
-                value:pattern,
+                value: pattern,
                 message: 'Ingrese un correo electrónico válido'
               },
               minLength: {
                 value: min,
-                message: `${title} debe ser mayor a ${min} carácteres`,
+                message: `${title} debe ser mayor a ${min} caracteres`,
               },
               maxLength: {
                 value: max,
-                message: `${title} debe de ser menor a ${max} carácteres`,
+                message: `${title} debe ser menor a ${max} caracteres`,
               },
             })}
-            className="text-black rounded-lg p-3 pr-3 px-3 w-full focus:outline-none "
+            className="text-black rounded-lg p-3 pr-3 px-3 w-full focus:outline-none"
             onFocus={handleFocus}
             onBlur={handleBlur}
-            value={look(name) || ''} 
           />
           <div className="absolute inset-y-0 right-0 flex items-center bg-transparent p-2">
             <Icon icon={icon} className="text-black text-2xl" />
@@ -468,6 +467,7 @@ export const InputEmail = ({
       </div>
   )
 }
+
 
 export const InputMoney = ({ w = "w-full", value, onChange }) => {
   // Estado local para el valor del input
@@ -529,18 +529,63 @@ export const InputMoney = ({ w = "w-full", value, onChange }) => {
   );
 };
 
+export const MoneyInput = ({ value, onChange }) => {
+  const formatCurrency = (value) => {
+      return Number(value).toLocaleString('es-MX', {
+          style: 'currency',
+          currency: 'MXN',
+          minimumFractionDigits: 0
+      }).replace('$', '');
+  };
+
+  const [inputValue, setInputValue] = useState(formatCurrency(value));
+
+  const handleChange = (e) => {
+      const rawValue = e.target.value.replace(/,/g, '');
+      if (!isNaN(rawValue)) {
+          const formattedValue = formatCurrency(rawValue);
+          setInputValue(formattedValue);
+          onChange && onChange(Number(rawValue));
+      }
+  };
+
+  return (
+<div>
+    <AnimatePresence>
+        <motion.div className="relative ">
+            <span className="absolute inset-y-0 left-0 flex items-center pl-2">
+                <Icon icon="mdi:dollar" className="text-green-500" />
+            </span>
+            <motion.input
+                type="text"
+                className="text-white bg-transparent p-2 border border-gray-300 shadow-sm pl-8 pr-2 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                value={inputValue}
+                onChange={handleChange}
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+            />
+        </motion.div>
+    </AnimatePresence>
+</div>
+  );
+};
+
+
 
 //TODO: INPUTS ESPECIALES
 
 
-export const InputSearch = () => {
+export const InputSearch = ({change}) => {
   return (
       <div className="relative w-full ">
         <div className="relative">
           <input
             type="text"
             className="text-white rounded-lg p-3 pr-10 pl-12 px-3
-              w-full focus:outline-none bg-zinc-800 text-xl" placeholder="Buscar"
+              w-full focus:outline-none bg-zinc-800 text-xl" 
+            placeholder="Buscar"
+            onChange={change}
           />
           <div className="absolute inset-y-0 left-0 flex items-center p-2 ">
             <Icon icon="material-symbols:search" className="text-white text-3xl" />
@@ -602,12 +647,13 @@ export const CustomSelect = ({ options, placeholder, onChange, value }) => {
   );
 }
 
-export const CustomSelect2 = ({ options, placeholder, onChange, value, w = 'w-full', opt = false, text, click, icon = false, styles, desc = false}) => {
+export const CustomSelect2 = ({ options, placeholder, onChange, value, w = 'w-full', opt = false, text, click, icon = false, styles, desc = false, }) => {
   const [isOpen, setIsOpen] = useState(false);
   
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
+
 
   return (
     <div className="relative">
@@ -630,9 +676,9 @@ export const CustomSelect2 = ({ options, placeholder, onChange, value, w = 'w-fu
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="absolute w-full bg-zinc-800 shadow-md mt-1 rounded  text-white z-10"
+            className="absolute w-full bg-zinc-800 shadow-md mt-1 rounded text-white z-10"
           >
-            <ul>
+            <ul className="max-h-60 overflow-y-auto">
               {options.map((option, index) => (
                 <li key={index} className="px-3 py-2 rounded hover:bg-gray-600">
                   {desc ? (
@@ -645,7 +691,7 @@ export const CustomSelect2 = ({ options, placeholder, onChange, value, w = 'w-fu
                     <button
                       className={`w-full text-left focus:outline-none ${styles}`}
                       onClick={(e) => {
-                        e.preventDefault()
+                        e.preventDefault();
                         onChange(option);
                         toggleDropdown();
                       }}
@@ -657,7 +703,10 @@ export const CustomSelect2 = ({ options, placeholder, onChange, value, w = 'w-fu
                 </li>
               ))}
               {opt && (
-                <button className="w-full flex items-center justify-between p-3 hover:bg-gray-600 relative" onClick={click}>
+                <button
+                  className="w-full flex items-center justify-between p-3 hover:bg-gray-600 relative"
+                  onClick={click}
+                >
                   {text}
                   <Icon icon='arcticons:mapsgeobookmarks' />
                 </button>
@@ -669,6 +718,7 @@ export const CustomSelect2 = ({ options, placeholder, onChange, value, w = 'w-fu
     </div>
   );
 };
+
 
 export const CustomSelectPlus = ({ options, placeholder, onChange, value }) => {
   const [isOpen, setIsOpen] = useState(false);
