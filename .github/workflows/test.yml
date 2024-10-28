@@ -46,14 +46,14 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    needs: build
+    needs: build  # Asegúrate de que este paso depende de build
     if: github.ref == 'refs/heads/master'
 
     steps:
       - name: Descargar artefactos de compilación
         uses: actions/download-artifact@v3
         with:
-          name: build-artifact  # Asegúrate de que el nombre sea idéntico al usado en build
+          name: build-artifact  # Este nombre debe coincidir exactamente con el de upload-artifact en build
           path: ./dist
 
       - name: Desplegar a Vercel
