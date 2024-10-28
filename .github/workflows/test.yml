@@ -1,0 +1,14 @@
+name: PWA CI/CD Workflow LABARBADA
+
+on:
+  push:
+    branches:
+      - master
+      - errors
+      - utilidades
+  pull_request:
+    branches:
+      - master
+      - errors
+      - utilidades
+  workflow_dispatch: 
