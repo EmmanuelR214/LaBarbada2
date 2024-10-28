@@ -59,11 +59,14 @@ jobs:
         with:
           node-version: 20
 
-      - name: Descargar artefactos de compilación
+      - name: Descargar Artefactos de Compilación
         uses: actions/download-artifact@v3
         with:
           name: build-artifacts
           path: ./dist
+
+      - name: Verificar Archivos Descargados
+        run: ls -la ./dist  # Verificar que los archivos se descargaron correctamente
 
       - name: Desplegar a Vercel
         working-directory: ./dist
