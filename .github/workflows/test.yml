@@ -29,16 +29,15 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       
-      - name: Cache de dependencias npm
-        uses: actions/cache@v2
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-${{ matrix.node-version }}
 
       - name: Instalar Dependencias
         run: npm install
+
+      - name: Configurar Caché
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
 
   build:
     runs-on: ubuntu-latest
