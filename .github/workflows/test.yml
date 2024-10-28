@@ -4,66 +4,53 @@ on:
   push:
     branches:
       - master
-      - errors
-      - utilidades
   pull_request:
     branches:
       - master
-      - errors
-      - utilidades
-  workflow_dispatch: 
+  workflow_dispatch:
 
 jobs:
-  build_and_deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x] # Prueba en varias versiones de Node.js
+
     steps:
-      - name: Checkout Código
-        uses: actions/checkout@v4
+      - name: Checkout del código
+        uses: actions/checkout@v3
 
       - name: Configurar Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 20
-
-      - name: Configurar Caché
-        uses: actions/cache@v3
+          node-version: ${{ matrix.node-version }}
+          
+      - name: Cache de dependencias npm
+        uses: actions/cache@v2
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+          key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ matrix.node-version }}
 
-      - name: Instalar Dependencias
+      - name: Instalar dependencias
         run: npm install
 
-      - name: Compilar Proyecto
+      # Construir la aplicación solo en la rama master
+      - name: Construir la aplicación
+        if: github.ref == 'refs/heads/master'
         run: npm run build
 
-      - name: Verificar Archivos de Compilación
-        run: ls -la ./dist  # Listar el contenido de la carpeta dist para verificar
-
-      - name: Subir Artefacto
-        uses: actions/upload-artifact@v4
+      - name: Guardar artefactos de compilación (solo si el build es exitoso en master)
+        if: success() && github.ref == 'refs/heads/master'
+        uses: actions/upload-artifact@v3
         with:
           name: build-artifacts
-          path: ./dist
+          path: dist/
+          retention-days: 5 # Limitar la retención de los artefactos a 5 días para optimización de costos
 
-      - name: Descargar Artefactos de Compilación
-        uses: actions/download-artifact@v3
-        with:
-          name: build-artifacts
-          path: ./dist
-
-      - name: Verificar Archivos Descargados
-        run: ls -la ./dist  # Verificar que los archivos se descargaron correctamente
-
-      - name: Desplegar a Vercel
-        working-directory: ./dist
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        run: |
-          npx vercel --prod --token $VERCEL_TOKEN
-
-  # Notificaciones de éxito o fallo a Slack
+  # Notificaciones de éxito o fallo a Slack (opcional)
   notifications:
     runs-on: ubuntu-latest
     if: failure() || success()
@@ -78,20 +65,3 @@ jobs:
         if: success()
         run: |
           curl -X POST -H 'Content-type: application/json' --data '{"text":"✅ CI/CD completado con éxito en la rama ${{ github.ref }}. Revisa los detalles: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"}' ${{ secrets.SLACK_WEBHOOK_URL }}
-
-  # Notificaciones en los Pull Requests con GitHub Script
-  notify-pr:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
-
-    steps:
-      - name: Agregar comentario en el Pull Request
-        uses: actions/github-script@v4
-        with:
-          script: |
-            github.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: "Se completó la ejecución de los tests y el linter para este PR. Revisa los resultados antes de hacer merge."
-            })
