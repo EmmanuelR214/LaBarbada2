@@ -16,9 +16,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [16.x, 18.x]
 
     steps:
       - name: Checkout Código
@@ -27,7 +24,7 @@ jobs:
       - name: Configurar Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 16  # Elige una versión estable como la 16 o 18
 
       - name: Configurar Caché
         uses: actions/cache@v3
@@ -44,7 +41,7 @@ jobs:
       - name: Subir Artefacto
         uses: actions/upload-artifact@v4
         with:
-          name: build-artifact-${{ matrix.node-version }}
+          name: build-artifact
           path: ./dist
 
   deploy:
@@ -56,7 +53,7 @@ jobs:
       - name: Descargar artefactos de compilación
         uses: actions/download-artifact@v3
         with:
-          name: build-artifact-16.x  # Asegúrate de elegir la versión que prefieras para el despliegue
+          name: build-artifact  # Asegúrate de que el nombre sea idéntico al usado en build
           path: ./dist
 
       - name: Desplegar a Vercel
