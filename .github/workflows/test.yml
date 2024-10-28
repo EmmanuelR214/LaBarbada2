@@ -24,7 +24,7 @@ jobs:
       - name: Configurar Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16  # Elige una versión estable
+          node-version: 20
 
       - name: Configurar Caché
         uses: actions/cache@v3
@@ -38,8 +38,11 @@ jobs:
       - name: Compilar Proyecto
         run: npm run build
 
+      - name: Verificar Archivos de Compilación
+        run: ls -la ./dist  # Listar el contenido de la carpeta dist para verificar
+
       - name: Subir Artefacto
-        if: success() && github.ref == 'refs/heads/master'  # Solo sube en master
+        if: success() && github.ref == 'refs/heads/master'
         uses: actions/upload-artifact@v4
         with:
           name: build-artifacts
@@ -51,10 +54,15 @@ jobs:
     if: github.ref == 'refs/heads/master'
 
     steps:
+      - name: Configurar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
       - name: Descargar artefactos de compilación
         uses: actions/download-artifact@v3
         with:
-          name: build-artifacts  # Nombre unificado con build
+          name: build-artifacts
           path: ./dist
 
       - name: Desplegar a Vercel
