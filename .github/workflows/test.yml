@@ -14,7 +14,7 @@ on:
   workflow_dispatch: 
 
 jobs:
-  build:
+  build_and_deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -47,17 +47,6 @@ jobs:
           name: build-artifacts
           path: ./dist
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    if: github.ref == 'refs/heads/master'
-
-    steps:
-      - name: Configurar Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 20
-
       - name: Descargar Artefactos de Compilación
         uses: actions/download-artifact@v3
         with:
@@ -73,3 +62,36 @@ jobs:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         run: |
           npx vercel --prod --token $VERCEL_TOKEN
+
+  # Notificaciones de éxito o fallo a Slack
+  notifications:
+    runs-on: ubuntu-latest
+    if: failure() || success()
+
+    steps:
+      - name: Notificación de fallo a Slack
+        if: failure()
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"❌ Error en el CI/CD en la rama ${{ github.ref }}. Revisa los detalles: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"}' ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Notificación de éxito a Slack
+        if: success()
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"✅ CI/CD completado con éxito en la rama ${{ github.ref }}. Revisa los detalles: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"}' ${{ secrets.SLACK_WEBHOOK_URL }}
+
+  # Notificaciones en los Pull Requests con GitHub Script
+  notify-pr:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - name: Agregar comentario en el Pull Request
+        uses: actions/github-script@v4
+        with:
+          script: |
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: "Se completó la ejecución de los tests y el linter para este PR. Revisa los resultados antes de hacer merge."
+            })
