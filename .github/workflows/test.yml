@@ -46,3 +46,22 @@ jobs:
         with:
           name: build-artifact-${{ matrix.node-version }}
           path: ./dist
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/master'
+
+    steps:
+      - name: Descargar artefactos de compilación
+        uses: actions/download-artifact@v3
+        with:
+          name: build-artifact-16.x  # Asegúrate de elegir la versión que prefieras para el despliegue
+          path: ./dist
+
+      - name: Desplegar a Vercel
+        working-directory: ./dist
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          npx vercel --prod --token $VERCEL_TOKEN
