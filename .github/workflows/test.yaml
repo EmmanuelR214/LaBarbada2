@@ -4,9 +4,11 @@ on:
   push:
     branches:
       - master
+      - utilidades 
   pull_request:
     branches:
       - master
+      - utilidades 
   workflow_dispatch:
 
 jobs:
@@ -36,7 +38,7 @@ jobs:
 
       - name: Instalar dependencias
         run: npm install
-        
+
       # Paso para instalar Cypress si no está en la caché
       - name: Cachear Cypress
         uses: actions/cache@v2
