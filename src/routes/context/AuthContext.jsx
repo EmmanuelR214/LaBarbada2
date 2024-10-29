@@ -176,6 +176,7 @@ export const AuthProvider = ({children}) => {
       setIsAuthenticade(true)
       setSuccessAuth([`¡Hola de nuevo!`])
     } catch (error) {
+      console.log(error.response.data)
       if(Array.isArray(error.response.data)) setErrorAuth(error.response.data)
       setErrorAuth(error.response.data)
     }
