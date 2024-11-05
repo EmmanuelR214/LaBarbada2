@@ -28,6 +28,7 @@ export const InputDesign = ({
       <div className={`relative ${w}`} >
         <div className="relative">
           <motion.label
+            htmlFor={name}
             className={`absolute left-3 ${
               isFocused ? " text-sm" : "text-gray-500"
             } pointer-events-none`}
@@ -38,6 +39,7 @@ export const InputDesign = ({
             <label htmlFor="">{title}</label>
           </motion.label>
           <input
+            id={name}
             type="text"
             {...method(name, {
               required: `${title} es requerido`,
@@ -114,6 +116,7 @@ export const InputPassword = ({
       <div className="relative w-full ">
         <div className="relative">
           <motion.label
+            htmlFor={name}
             className={`absolute left-3 ${
               isFocused ? " text-sm" : "text-gray-500"
             } pointer-events-none`}
@@ -124,6 +127,7 @@ export const InputPassword = ({
             <label htmlFor="">{title}</label>
           </motion.label>
           <input
+            id={name}
             type={showPass ? 'text' : 'password'}
             {...method(name, {
               required: `${title} es requerido`,
@@ -197,6 +201,7 @@ export const InputPasswordConfirm = ({
       <div className="relative w-full ">
         <div className="relative">
           <motion.label
+            htmlFor={name}
             className={`absolute left-3 ${
               isFocused ? " text-sm" : "text-gray-500"
             } pointer-events-none`}
@@ -207,6 +212,7 @@ export const InputPasswordConfirm = ({
             <label htmlFor="">{title}</label>
           </motion.label>
           <input
+            id={name}
             type={showPass ? 'text' : 'password'}
             {...method(name, {
               required: `${title} es requerido`,
@@ -285,6 +291,7 @@ export const InputPhone = ({
       <div className="relative w-full">
         <div className="relative">
           <motion.label
+            htmlFor={name}
             className={`absolute left-3 ${
               isFocused ? " text-sm" : "text-gray-500"
             } pointer-events-none`}
@@ -295,6 +302,7 @@ export const InputPhone = ({
             <label htmlFor="">{title}</label>
           </motion.label>
           <input
+            id={name}
             type="tel"
             {...method(name, {
               required: `${title} es requerido`,
@@ -375,6 +383,7 @@ export const VerificationInput = ({
       <div className="flex items-center justify-center text-black">
         {Array.from({ length: 6 }).map((_, index) => (
           <input
+            id={name}
             {...method(name,{
               required: `${title} es requerido`,
               minLength: {
@@ -429,6 +438,7 @@ export const InputEmail = ({
       <div className="relative w-full">
         <div className="relative">
           <motion.label
+            htmlFor={name}
             className={`absolute left-3 ${
               isFocused ? " text-sm" : "text-gray-500"
             } pointer-events-none`}
@@ -439,6 +449,7 @@ export const InputEmail = ({
             <label htmlFor="">{title}</label>
           </motion.label>
           <input
+            id={name}
             type="email"
             {...method(name, {
               required: `${title} es requerido`,
