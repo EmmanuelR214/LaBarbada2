@@ -36,6 +36,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-${{ matrix.node-version }}
 
+      # Paso para ejecutar las pruebas de Jest
+      - name: Ejecutar pruebas unitarias con Jest
+        run: npm test -- --coverage
+
       - name: Instalar dependencias
         run: npm install  # Punto 4: Instalación de dependencias
 
