@@ -86,6 +86,7 @@ describe('Login Component', () => {
     
     // Usa una función para hacer la búsqueda más flexible    
     await waitFor(() => {
+      console.log('Login')
     });
     
   });
