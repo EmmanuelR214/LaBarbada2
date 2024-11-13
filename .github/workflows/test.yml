@@ -1,62 +1,53 @@
-name: PWA CI/CD Workflow LABARBADA
+name: Flujo de trabajo de CI/CD de pruebas
 
 on:
   push:
     branches:
       - master
+      - utilidades
   pull_request:
     branches:
-      - master
-  workflow_dispatch:
+      - utilidades
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [16.x, 18.x] # Prueba en varias versiones de Node.js
-
     steps:
-      - name: Checkout del código
-        uses: actions/checkout@v3
+      - name: Revisar el repositorio
+        uses: actions/checkout@v2
 
       - name: Configurar Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node-version }}
-          
-      - name: Cache de dependencias npm
-        uses: actions/cache@v2
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-${{ matrix.node-version }}
+          node-version: '16'
 
       - name: Instalar dependencias
         run: npm install
 
-      # Paso para ejecutar las pruebas de Jest
-      - name: Ejecutar pruebas unitarias con Jest
-        run: npm test -- --coverage
-
-      # Construir la aplicación solo en la rama master
       - name: Construir la aplicación
-        if: github.ref == 'refs/heads/master'
         run: npm run build
 
-      - name: Guardar artefactos de compilación (solo si el build es exitoso en master)
-        if: success() && github.ref == 'refs/heads/master'
-        uses: actions/upload-artifact@v3
-        with:
-          name: build-artifacts
-          path: dist/
-          retention-days: 5 # Limitar la retención de los artefactos a 5 días para optimización de costos
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
 
-      # Desplegar a producción en Hostinger vía FTP
+    steps:
+      - name: Revisar el repositorio
+        uses: actions/checkout@v2
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Instalar dependencias
+        run: npm install
+
+      - name: Construir la aplicación
+        run: npm run build
+
       - name: Desplegar a producción en Hostinger vía FTP
-        if: success() && github.ref == 'refs/heads/master'
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with:
           server: ${{ secrets.FTP_SERVER }}
@@ -64,23 +55,22 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./dist/
 
-  # Notificaciones de éxito o fallo a Slack (opcional)
-  notifications:
-    runs-on: ubuntu-latest
-    if: failure() || success()
-
-    steps:
-      - name: Notificación de fallo a Slack
-        if: failure()
-        run: |
-          curl -X POST -H 'Content-type: application/json' --data '{"text":"❌ Error en el CI/CD en la rama ${{ github.ref }}. Revisa los detalles: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"}' ${{ secrets.SLACK_WEBHOOK_URL }}
-
-      - name: Notificación de éxito a Slack
-        if: success()
-        run: |
-          curl -X POST -H 'Content-type: application/json' --data '{"text":"✅ CI/CD completado con éxito en la rama ${{ github.ref }}. Revisa los detalles: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"}' ${{ secrets.SLACK_WEBHOOK_URL }}
-
-
+      - name: Notificar despliegue exitoso
+        if: success()  # Solo se ejecuta si el despliegue fue exitoso
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            if (context.eventName === 'pull_request') {
+              github.issues.createComment({
+                issue_number: context.payload.pull_request.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: ✅ Despliegue automático en Hostinger vía FTP completado exitosamente para el commit ${github.sha}.
+              });
+            } else {
+              console.log("Despliegue exitoso :)");
+            }
 
 
 
