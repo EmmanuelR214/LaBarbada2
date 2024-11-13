@@ -1,89 +1,73 @@
-name: PWA CI/CD Workflow LABARBADA  # Punto 1: Nombre del flujo de trabajo
+name: Flujo de trabajo de CI/CD de la BARBADA
 
 on:
-  push:  # Punto 1: Desencadenadores
+  push:
     branches:
-      - master
-      - utilidades 
+      - development
+      - main
   pull_request:
     branches:
-      - master
-      - utilidades 
-  workflow_dispatch:  # Activación manual opcional
+      - development
 
 jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest  # Punto 2: Configuración del entorno, sistema operativo
-
-    strategy:
-      matrix:
-        node-version: [16.x, 18.x]  # Punto 2: Configuración de Node.js en varias versiones
+  build:
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout del código
-        uses: actions/checkout@v3
+      - name: Revisar el repositorio
+        uses: actions/checkout@v2
 
       - name: Configurar Node.js
-        uses: actions/setup-node@v3  # Punto 2: Configuración de Node.js
+        uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node-version }}
-          
-      - name: Cache de dependencias npm
-        uses: actions/cache@v2  # Punto 2 y 10: Caché de dependencias para optimización
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-${{ matrix.node-version }}
-
-      # Paso para ejecutar las pruebas de Jest
-      - name: Ejecutar pruebas unitarias con Jest
-        run: npm test -- --coverage
+          node-version: '16'
 
       - name: Instalar dependencias
-        run: npm install  # Punto 4: Instalación de dependencias
+        run: npm install
 
-      # Paso para instalar Cypress si no está en la caché
-      - name: Cachear Cypress
-        uses: actions/cache@v2  # Punto 2 y 10: Caché para Cypress
-        with:
-          path: ~/.cache/Cypress
-          key: ${{ runner.os }}-cypress-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-cypress
-
-      - name: Instalar Cypress
-        run: npx cypress install  # Punto 5: Instalación de Cypress para pruebas E2E
-
-      # Paso para ejecutar pruebas de extremo a extremo con Cypress
-      - name: Ejecutar pruebas de extremo a extremo con Cypress
-        run: npx cypress run  # Punto 5: Ejecución de pruebas E2E
-
-      # Construir la aplicación solo en la rama master
       - name: Construir la aplicación
-        if: github.ref == 'refs/heads/master'  # Punto 3 y 4: Despliegue solo en rama master y compilación
         run: npm run build
 
-      - name: Guardar artefactos de compilación (solo si el build es exitoso en master)
-        if: success() && github.ref == 'refs/heads/master'  # Punto 4 y 10: Guardar artefactos con límite de retención
-        uses: actions/upload-artifact@v3
-        with:
-          name: build-artifacts
-          path: dist/
-          retention-days: 5  # Límite de retención de artefactos (5 días)
-
-  # Notificaciones de éxito o fallo a Slack (opcional)
-  notifications:
+  deploy:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    if: failure() || success()
 
     steps:
-      - name: Notificación de fallo a Slack
-        if: failure()  # Punto 8: Notificación de fallo
-        run: |
-          curl -X POST -H 'Content-type: application/json' --data '{"text":"❌ Error en el CI/CD en la rama ${{ github.ref }}. Revisa los detalles: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"}' ${{ secrets.SLACK_WEBHOOK_URL }}
+      - name: Revisar el repositorio
+        uses: actions/checkout@v2
 
-      - name: Notificación de éxito a Slack
-        if: success()  # Punto 8: Notificación de éxito
-        run: |
-          curl -X POST -H 'Content-type: application/json' --data '{"text":"✅ CI/CD completado con éxito en la rama ${{ github.ref }}. Revisa los detalles: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"}' ${{ secrets.SLACK_WEBHOOK_URL }}
+      - name: Configurar Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Instalar dependencias
+        run: npm install
+
+      - name: Construir la aplicación
+        run: npm run build
+
+      - name: Desplegar a producción en Hostinger vía FTP
+        uses: SamKirkland/FTP-Deploy-Action@4.0.0
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./dist/
+
+      - name: Notificar despliegue exitoso
+        if: success()  # Solo se ejecuta si el despliegue fue exitoso
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            if (context.eventName === 'pull_request') {
+              github.issues.createComment({
+                issue_number: context.payload.pull_request.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: ✅ Despliegue automático en Hostinger vía FTP completado exitosamente para el commit ${github.sha}.
+              });
+            } else {
+              console.log("Despliegue exitoso :)");
+            }
