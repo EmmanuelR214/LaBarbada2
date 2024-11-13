@@ -5,6 +5,6 @@ export default {
     "^.+\\.jsx?$": "babel-jest"
   },
   transformIgnorePatterns: [
-    "/node_modules/(?!axios|@iconify/react|framer-motion)/" // Añade "axios" aquí
+    "/node_modules/(?!axios|@iconify/react|framer-motion)/" 
   ],
 };
