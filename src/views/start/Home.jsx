@@ -122,7 +122,7 @@ const Home = () => {
         >
           <h2 className="text-md lg:text-4xl font-bold mb-4">Reservaciones en linea</h2>
           <p className="text-[0.678rem] md:text-base mb-4">Reserva tu mesa ahora en La Barbada Restaurante y prepárate para una experiencia culinaria inolvidable.</p>
-          <p className="text-[0.678rem] md:text-base mb-4">¡No pierdas la oportunidad de convertirte en un capitán de la buena comida! hola mundo</p>
+          <p className="text-[0.678rem] md:text-base mb-4">¡No pierdas la oportunidad de convertirte en un capitán de la buena comida!</p>
           <ButtonHome icon="ion:calendar-number" text="RESERVA AHORA" to="https://api.whatsapp.com/send?phone=7712451795" />
         </motion.div>
 
