@@ -122,7 +122,7 @@ const Home = () => {
         >
           <h2 className="text-md lg:text-4xl font-bold mb-4">Reservaciones en linea</h2>
           <p className="text-[0.678rem] md:text-base mb-4">Reserva tu mesa ahora en La Barbada Restaurante y prepárate para una experiencia culinaria inolvidable.</p>
-          <p className="text-[0.678rem] md:text-base mb-4">¡No pierdas la oportunidad de convertirte en un capitán de la buena comida!</p>
+          <p className="text-[0.678rem] md:text-base mb-4">¡No pierdas la oportunidad de convertirte en un capitán de la buena comida! hola mundo</p>
           <ButtonHome icon="ion:calendar-number" text="RESERVA AHORA" to="https://api.whatsapp.com/send?phone=7712451795" />
         </motion.div>
 
@@ -150,7 +150,7 @@ const Home = () => {
           animate={isInViewSection3 ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }} // Animar al entrar y al salir de vista
           transition={{ duration: 0.8, ease: 'easeOut', delay: 0.1 }} // Con pequeño delay
         >
-          <h2 className="font-bold">UBICACIÓN</h2>
+          <h2 className="font-bold"> UBICACIÓN</h2>
           <img src="/img/timon.svg" alt="" className=" w-56 h-56" loading="lazy" />
           <p className="text-center">
             Estamos ubicados en Huejutla de Reyes, Hidalgo, Carretera México - Pachuca KM 214, a 100 metros de la clínica ISSSTE.
